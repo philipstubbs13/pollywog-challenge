@@ -33,35 +33,16 @@ const styles = () => ({
 class Landing extends Component {
   // Initial state
   state = {
-    artItems: [],
     error: '',
   }
 
   // When the component mounts to the page.
   componentDidMount() {
+    // ES6 destructuring
+    const { handleGetRandomArtwork } = this.props;
     // Get 10 random pieces of art.
-    this.handleGetRandomArtwork();
+    handleGetRandomArtwork();
   }
-
-  // This function will get ten random artworks from the collection
-  // and information about each artwork.
-  handleGetRandomArtwork= () => {
-    // url endpoint for getting random art.
-    const url = 'https://search.artsmia.org/random/art?size=40';
-    // Make GET request using fetch API.
-    // eslint-disable-next-line no-undef
-    fetch(url, {
-      method: 'GET',
-    })
-      .then(response => response.json()).then((data) => {
-        // After we get the art back, save the artwork to the component state.
-        this.setState({ artItems: data });
-        // eslint-disable-next-line no-console
-        console.log(data);
-      })
-      // If there is an error, catch the error and save to component state.
-      .catch(error => this.setState({ error }));
-  };
 
   // If an artwork does not have an image available,
   // use the default/placeholder image instead.
@@ -71,8 +52,8 @@ class Landing extends Component {
 
   render() {
     // ES6 destructuring
-    const { classes } = this.props;
-    const { artItems } = this.state;
+    const { classes, artItems } = this.props;
+    console.log(this.props);
     return (
       <div>
         <Typography variant="title">
@@ -86,7 +67,7 @@ class Landing extends Component {
           and render the art to the page. */}
           {artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1').splice(0, 10).map(item => (
             <div className={classes.artItem} key={item._source.id}>
-              <Button component={Link} to={`/home/artwork/${item._source.id}`}>
+              <Button component={Link} to={{ pathname: `/home/artwork/${item._source.id}`, state: { artItems } }}>
                 <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className={classes.artImage} />
               </Button>
             </div>
@@ -100,6 +81,8 @@ class Landing extends Component {
 // Document/check prop types
 Landing.propTypes = {
   classes: PropTypes.object.isRequired,
+  handleGetRandomArtwork: PropTypes.func.isRequired,
+  artItems: PropTypes.array.isRequired,
 };
 
 // export the component from this file.

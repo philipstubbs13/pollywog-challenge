@@ -2,6 +2,8 @@
 import React from 'react';
 // import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
+// import third party linking library
+import { Link } from 'react-router-dom';
 // import styling and components from material-ui library.
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,6 +17,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
@@ -147,9 +150,11 @@ class NavBar extends React.Component {
             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
             </IconButton>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              MyArtSearch
-            </Typography>
+            <Link to="/home" style={{ textDecoration: 'none', color: 'var(--app-light-color)' }}>
+              <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                MyArtSearch
+              </Typography>
+            </Link>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />

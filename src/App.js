@@ -28,9 +28,36 @@ const styles = () => ({
 
 // Class based React component for the main App component/container.
 class App extends Component {
+  state = {
+    artItems: [],
+  }
+
+  // This function will get ten random artworks from the collection
+  // and information about each artwork.
+  handleGetRandomArtwork= () => {
+    // ES6 destructuring
+    const { artItems } = this.state;
+    // url endpoint for getting random art.
+    const url = 'https://search.artsmia.org/random/art?size=40';
+    // Make GET request using fetch API.
+    // eslint-disable-next-line no-undef
+    fetch(url, {
+      method: 'GET',
+    })
+      .then(response => response.json()).then((data) => {
+        // After we get the art back, save the artwork to the component state.
+        this.setState({ artItems: data });
+        // eslint-disable-next-line no-console
+        console.log(data);
+      })
+      // If there is an error, catch the error and save to component state.
+      .catch(error => this.setState({ error }));
+  };
+
   render() {
     // ES6 destructuring
     const { classes } = this.props;
+    const { artItems } = this.state;
     return (
       <div className="App">
         <Router>
@@ -38,8 +65,27 @@ class App extends Component {
             <NavBar />
             <div className={classes.appPages}>
               <Switch>
-                <Route exact path="/home" component={Landing} />
-                <Route exact path="/home/artwork/:id" component={Artwork} />
+                <Route
+                  exact
+                  path="/home"
+                  render={props => (
+                    <Landing
+                      {...props}
+                      handleGetRandomArtwork={this.handleGetRandomArtwork}
+                      artItems={artItems}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/home/artwork/:id"
+                  render={props => (
+                    <Artwork
+                      {...props}
+                      artItems={artItems}
+                    />
+                  )}
+                />
               </Switch>
             </div>
           </React.Fragment>
