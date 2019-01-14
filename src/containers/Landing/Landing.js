@@ -2,9 +2,12 @@
 import React, { Component } from 'react';
 // import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
+// import react-router-library for linking pages.
+import { Link } from 'react-router-dom';
 // import styling and components from material-ui library
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 // CSS in JS
 const styles = () => ({
@@ -83,7 +86,9 @@ class Landing extends Component {
           and render the art to the page. */}
           {artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1').splice(0, 10).map(item => (
             <div className={classes.artItem} key={item._source.id}>
-              <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className={classes.artImage} />
+              <Button component={Link} to={`/home/artwork/${item._source.id}`}>
+                <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className={classes.artImage} />
+              </Button>
             </div>
           ))}
         </div>
