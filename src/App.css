@@ -1,0 +1,9 @@
+:root {
+	--background-opacity: 0.9;
+	--main-app-color: #2b3035;
+	--app-secondary-color: #dc3545;
+  --app-background-color: #f8f9fa;
+	--app-light-color: #fff;
+	--app-dark-color: black;
+	--app-transparent-color: rgba(0, 0, 0, 0);
+}
