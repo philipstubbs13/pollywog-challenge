@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
+import Sound from 'react-sound';
 // import styling and components from material-ui library
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -72,13 +73,36 @@ const styles = theme => ({
   backBtn: {
     marginBottom: 20,
   },
+  art: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  playAudioBtn: {
+    marginTop: 20,
+  },
 });
 
 // Class based React component for the Artwork Details page/container
 class Artwork extends Component {
+  state = {
+    play: false,
+    audioBtnText: 'Play audio tour',
+  }
+
+  togglePlayAudio = () => {
+    const { play } = this.state;
+    this.setState({play: !play });
+    if (play) {
+      this.setState({audioBtnText: 'Pause audio tour' });
+    } else {
+      this.setState({ audioBtnText: 'Play audio tour' });
+    }
+  };
+
   render() {
     // ES6 destructuring
     const { classes } = this.props;
+    const { play, audioBtnText } = this.state;
     // Grab the list of artItems from component state.
     const { artItems } = this.props.location.state;
     console.log(artItems);
@@ -97,6 +121,20 @@ class Artwork extends Component {
                 alt={item._source.title}
                 className={classes.artImage}
               />
+              <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={() => this.togglePlayAudio()}>
+                {audioBtnText}
+              </Button>
+              <small>*Don&#39;t hear anything? Check the volume level on your device.</small>
+              {play && (
+                <Sound
+                  url="http://audio-tours.s3.amazonaws.com/p384.mp3"
+                  playStatus={Sound.status.PLAYING}
+                  playFromPosition={300 /* in milliseconds */}
+                  onLoading={this.handleSongLoading}
+                  onPlaying={this.handleSongPlaying}
+                  onFinishedPlaying={this.handleSongFinishedPlaying}
+                />
+              )}
             </div>
             <div className={classes.artInfo}>
               <Paper className={classes.root} elevation={5}>
