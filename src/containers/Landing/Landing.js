@@ -30,6 +30,12 @@ const styles = () => ({
   landingTitle: {
     fontWeight: 'bold',
   },
+  loadMoreArt: {
+    marginTop: 30,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
 });
 
 // Class based React component for Landing page/container.
@@ -37,6 +43,7 @@ class Landing extends Component {
   // Initial state
   state = {
     error: '',
+    numberArt: 10,
   }
 
   // When the component mounts to the page.
@@ -53,10 +60,15 @@ class Landing extends Component {
     ev.target.src = 'https://1.api.artsmia.org/15790.jpg';
   }
 
+  toggleLoadMore = () => {
+    const { numberArt } = this.state;
+    this.setState({ numberArt: numberArt + 5 });
+  }
+
   render() {
     // ES6 destructuring
     const { classes, artItems } = this.props;
-    console.log(this.props);
+    const { numberArt } = this.state;
     return (
       <div>
         <Typography variant="h4" className={classes.landingTitle}>
@@ -68,16 +80,21 @@ class Landing extends Component {
           {/* Then, we are grabbing the first ten using the splice method. */}
           {/* Finally, we are using the map method to map over the art
           and render the art to the page. */}
-          {artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1').splice(0, 10).map(item => (
+          {artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1').splice(0, numberArt).map(item => (
             <div className={classes.artItem} key={item._source.id}>
-              <Button component={Link} to={{ pathname: `/home/artwork/${item._source.id}`, state: { artItems } }}>
+              <Link to={{ pathname: `/home/artwork/${item._source.id}`, state: { artItems } }}>
                 <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className={classes.artImage} />
-              </Button>
+              </Link>
               {item._source.hasOwnProperty(['related:audio-stops']) && (
                 <Button>Audio</Button>
               )}
             </div>
           ))}
+        </div>
+        <div className={classes.loadMoreArt}>
+          <Button variant="contained" color="primary" size="large" onClick={() => this.toggleLoadMore()}>
+            Load more
+          </Button>
         </div>
       </div>
     );

@@ -119,26 +119,32 @@ class Artwork extends Component {
                 alt={item._source.title}
                 className={classes.artImage}
               />
-              {play ? (
-                <React.Fragment>
-                  <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={() => this.togglePlayAudio()}>
-                    <i className="fas fa-pause" /> Pause audio tour
-                  </Button>
-                  <Sound
-                    url="http://audio-tours.s3.amazonaws.com/p741.mp3"
-                    playStatus={Sound.status.PLAYING}
-                    playFromPosition={300 /* in milliseconds */}
-                    onLoading={this.handleSongLoading}
-                    onPlaying={this.handleSongPlaying}
-                    onFinishedPlaying={this.handleSongFinishedPlaying}
-                  />
-                </React.Fragment>
-              ) : (
-                <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={() => this.togglePlayAudio()}>
-                  <i className="fas fa-play" /> Play audio tour
-                </Button>
-              )}
-              <small className={classes.audioSubtext}>*Don&#39;t hear anything? Check the volume level on your device.</small>
+              <React.Fragment>
+                {item._source.hasOwnProperty(['related:audio-stops']) && (
+                  <React.Fragment>
+                    {play ? (
+                      <React.Fragment>
+                        <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={() => this.togglePlayAudio()}>
+                          <i classN="fas fa-pause" /> Pause audio tour
+                        </Button>
+                        <Sound
+                          url={item._source['related:audio-stops'][0].link}
+                          playStatus={Sound.status.PLAYING}
+                          playFromPosition={300 /* in milliseconds */}
+                          onLoading={this.handleSongLoading}
+                          onPlaying={this.handleSongPlaying}
+                          onFinishedPlaying={this.handleSongFinishedPlaying}
+                        />
+                      </React.Fragment>
+                    ) : (
+                      <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={() => this.togglePlayAudio()}>
+                        <i className="fas fa-play" /> Play audio tour
+                      </Button>
+                    )}
+                    <small className={classes.audioSubtext}>*Don&#39;t hear anything? Check the volume level on your device.</small>
+                  </React.Fragment>
+                )}
+              </React.Fragment>
             </div>
             <div className={classes.artInfo}>
               <Paper className={classes.root} elevation={5}>

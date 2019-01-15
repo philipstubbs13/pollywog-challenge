@@ -49,7 +49,7 @@ class App extends Component {
     // ES6 destructuring
     const { artItems } = this.state;
     // url endpoint for getting random art.
-    const url = 'https://search.artsmia.org/random/art?size=40';
+    const url = 'https://search.artsmia.org/random/art?size=70';
     // Make GET request using fetch API.
     // eslint-disable-next-line no-undef
     fetch(url, {
