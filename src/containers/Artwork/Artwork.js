@@ -1,5 +1,9 @@
 // Global import of React.
 import React, { Component } from 'react';
+// import third party linking library.
+import { Link } from 'react-router-dom';
+// import PropTypes for defining/checking component props.
+import PropTypes from 'prop-types';
 // import styling and components from material-ui library
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,6 +13,8 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+// import external css fille
+import './Artwork.css';
 
 // CSS in JS
 const styles = theme => ({
@@ -63,14 +69,13 @@ const styles = theme => ({
     flexDirection: 'column',
     width: '60%',
   },
+  backBtn: {
+    marginBottom: 20,
+  },
 });
 
 // Class based React component for the Artwork Details page/container
 class Artwork extends Component {
-  state = {
-    relatedExhibitions: [],
-  }
-
   render() {
     // ES6 destructuring
     const { classes } = this.props;
@@ -79,8 +84,6 @@ class Artwork extends Component {
     console.log(artItems);
     // Grab the id of the specific artwork from props/url
     const { id } = this.props.match.params;
-    const specificItem = artItems.filter(item => item._source.id == id);
-    console.log(specificItem);
 
     return (
       <React.Fragment>
@@ -97,6 +100,9 @@ class Artwork extends Component {
             </div>
             <div className={classes.artInfo}>
               <Paper className={classes.root} elevation={5}>
+                <Button variant="contained" className={classes.backBtn} color="primary" component={Link} to="/home">
+                  <i className="fas fa-chevron-left" />{' '} back
+                </Button>
                 <div className={classes.artTitle}>
                   <Typography variant="h5" component="h3">
                     {item._source.title}
@@ -142,7 +148,7 @@ class Artwork extends Component {
                       Nationality
                     </Typography>
                     <Typography variant="body1" className={classes.itemSubtitle}>
-                      {item._source.nationality === null ? 'Not specified' : item._source.nationality}
+                      {item._source.nationality === null || item._source.nationality === '' ? 'Not specified' : item._source.nationality}
                     </Typography>
                   </div>
                   <div className={classes.artDetailsRow}>
@@ -262,11 +268,16 @@ class Artwork extends Component {
               </Paper>
             </div>
           </div>
-        ))} 
+        ))}
       </React.Fragment>
     );
   }
 }
+
+// Document/check prop types
+Artwork.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 // export the component from this file.
 export default withStyles(styles)(Artwork);

@@ -27,6 +27,9 @@ const styles = () => ({
     width: '300px',
     height: '300px',
   },
+  landingTitle: {
+    fontWeight: 'bold',
+  },
 });
 
 // Class based React component for Landing page/container.
@@ -56,8 +59,8 @@ class Landing extends Component {
     console.log(this.props);
     return (
       <div>
-        <Typography variant="title">
-          MyArtSearch
+        <Typography variant="h4" className={classes.landingTitle}>
+          Explore art from around the world
         </Typography>
         <div className={classes.artContainer}>
           {/* Here, we are filtering out invalid images

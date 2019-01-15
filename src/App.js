@@ -1,5 +1,5 @@
 // Global import of React.
-import React, { Component } from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 // import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
 // Importing React Router to add page routes.
@@ -11,7 +11,7 @@ import {
   Switch,
 } from 'react-router-dom';
 // Import styling and components from material ui library.
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 // Import the main external css file for the app.
 import './App.css';
 // Import the containers/pages for the app
@@ -23,6 +23,17 @@ import NavBar from './components/NavBar';
 const styles = () => ({
   appPages: {
     margin: '4rem',
+  },
+});
+
+const theme = createMuiTheme({
+  palette: {
+    type: 'light', // Switching the dark mode on is a single property value change.
+  },
+  typography: {
+    // In Japanese the characters are usually larger.
+    fontSize: 12,
+    useNextVariants: true,
   },
 });
 
@@ -62,6 +73,7 @@ class App extends Component {
       <div className="App">
         <Router>
           <React.Fragment>
+            <MuiThemeProvider theme={theme}>
             <NavBar />
             <div className={classes.appPages}>
               <Switch>
@@ -88,6 +100,7 @@ class App extends Component {
                 />
               </Switch>
             </div>
+          </ MuiThemeProvider>
           </React.Fragment>
         </Router>
       </div>
