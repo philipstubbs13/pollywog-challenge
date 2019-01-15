@@ -12,8 +12,6 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 // import external css fille
 import './Artwork.css';
 
@@ -80,29 +78,29 @@ const styles = theme => ({
   playAudioBtn: {
     marginTop: 20,
   },
+  exhibitListItem: {
+    marginTop: 20,
+  },
+  audioSubtext: {
+    marginTop: 5,
+  },
 });
 
 // Class based React component for the Artwork Details page/container
 class Artwork extends Component {
   state = {
     play: false,
-    audioBtnText: 'Play audio tour',
   }
 
   togglePlayAudio = () => {
     const { play } = this.state;
-    this.setState({play: !play });
-    if (play) {
-      this.setState({audioBtnText: 'Pause audio tour' });
-    } else {
-      this.setState({ audioBtnText: 'Play audio tour' });
-    }
+    this.setState({ play: !play });
   };
 
   render() {
     // ES6 destructuring
     const { classes } = this.props;
-    const { play, audioBtnText } = this.state;
+    const { play } = this.state;
     // Grab the list of artItems from component state.
     const { artItems } = this.props.location.state;
     console.log(artItems);
@@ -114,27 +112,33 @@ class Artwork extends Component {
         {/* Here, we are filtering the artItems array */}
         {/* To find a particular artwork by the id passed as a param in the url. */}
         {artItems.filter(item => item._source.id == id).map(item => (
-          <div className={classes.artworkContainer}>
+          <div className={classes.artworkContainer} key={item._source.id}>
             <div className={classes.art}>
               <img
                 src={`https://1.api.artsmia.org/${id}.jpg`}
                 alt={item._source.title}
                 className={classes.artImage}
               />
-              <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={() => this.togglePlayAudio()}>
-                {audioBtnText}
-              </Button>
-              <small>*Don&#39;t hear anything? Check the volume level on your device.</small>
-              {play && (
-                <Sound
-                  url="http://audio-tours.s3.amazonaws.com/p384.mp3"
-                  playStatus={Sound.status.PLAYING}
-                  playFromPosition={300 /* in milliseconds */}
-                  onLoading={this.handleSongLoading}
-                  onPlaying={this.handleSongPlaying}
-                  onFinishedPlaying={this.handleSongFinishedPlaying}
-                />
+              {play ? (
+                <React.Fragment>
+                  <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={() => this.togglePlayAudio()}>
+                    <i className="fas fa-pause" /> Pause audio tour
+                  </Button>
+                  <Sound
+                    url="http://audio-tours.s3.amazonaws.com/p741.mp3"
+                    playStatus={Sound.status.PLAYING}
+                    playFromPosition={300 /* in milliseconds */}
+                    onLoading={this.handleSongLoading}
+                    onPlaying={this.handleSongPlaying}
+                    onFinishedPlaying={this.handleSongFinishedPlaying}
+                  />
+                </React.Fragment>
+              ) : (
+                <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={() => this.togglePlayAudio()}>
+                  <i className="fas fa-play" /> Play audio tour
+                </Button>
               )}
+              <small className={classes.audioSubtext}>*Don&#39;t hear anything? Check the volume level on your device.</small>
             </div>
             <div className={classes.artInfo}>
               <Paper className={classes.root} elevation={5}>
@@ -286,23 +290,29 @@ class Artwork extends Component {
                     </Typography>
                   </div>
                 </div>
-                {/* {item._source["related:exhibitions"].length > 0 && (
-                  <div className={classes.exhibitionContainer}>
-                    <Typography variant="h5">
-                      Exhibitions
-                    </Typography>
-                    <Divider />
-                    <List>
-                      {item._source["related:exhibitions"].map(exhibit => (
-                        <React.Fragment>
-                          <ListItem>
-                            <ListItemText primary={exhibit.title} secondary={exhibit.date} />
-                          </ListItem>
-                        </React.Fragment>
-                      ))}
-                    </List>
-                  </div>
-                )} */}
+                {item._source.hasOwnProperty(['related:exhibitions']) && (
+                  <React.Fragment>
+                    {item._source['related:exhibitions'].length > 0 && (
+                      <div className={classes.exhibitionContainer}>
+                        <Typography variant="h5">
+                          Exhibitions
+                        </Typography>
+                        <Divider />
+                        <List>
+                          {item._source['related:exhibitions'].map(exhibit => (
+                            <React.Fragment>
+                              <div className={classes.exhibitListItem}>
+                                <Typography variant="title">{exhibit.title}</Typography>
+                                <Typography variant="subtitle1">{exhibit.date}</Typography>
+                                <Typography variant="body1">{exhibit.description}</Typography>
+                              </div>
+                            </React.Fragment>
+                          ))}
+                        </List>
+                      </div>
+                    )}
+                  </React.Fragment>
+                )}
               </Paper>
             </div>
           </div>

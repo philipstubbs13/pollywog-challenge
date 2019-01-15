@@ -73,6 +73,9 @@ class Landing extends Component {
               <Button component={Link} to={{ pathname: `/home/artwork/${item._source.id}`, state: { artItems } }}>
                 <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className={classes.artImage} />
               </Button>
+              {item._source.hasOwnProperty(['related:audio-stops']) && (
+                <Button>Audio</Button>
+              )}
             </div>
           ))}
         </div>
