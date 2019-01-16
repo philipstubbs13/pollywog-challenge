@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom';
 // import styling and components from material-ui library
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+// import external css file
+import './ArtItemsList.css';
 
 // CSS in JS
 const styles = () => ({
@@ -20,11 +23,6 @@ const styles = () => ({
   artItem: {
     marginTop: 20,
     flex: 1,
-  },
-  artImage: {
-    border: '1px solid var(--app-dark-color)',
-    width: '300px',
-    height: '300px',
   },
   loadMoreArt: {
     marginTop: 30,
@@ -87,12 +85,17 @@ class Landing extends Component {
           {artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1').splice(0, numberArt).map(item => (
             <div className={classes.artItem} key={item._source.id}>
               <Link to={{ pathname: `/home/artwork/${item._source.id}`, state: { artItems } }}>
-                <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className={classes.artImage} />
+                <div className="image">
+                  <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className="artImage" />
+                  <div className="art-title">
+                    <Typography variant="title">{item._source.title}</Typography>
+                    {/* If the artwork has audio... */}
+                    {item._source.hasOwnProperty(['related:audio-stops']) && (
+                      <Typography variant="title"><i className="fas fa-volume-up" /> Contains audio</Typography>
+                    )}
+                  </div>
+                </div>
               </Link>
-              {/* If the artwork has audio... */}
-              {item._source.hasOwnProperty(['related:audio-stops']) && (
-                <Button>Audio</Button>
-              )}
             </div>
           ))}
         </div>
