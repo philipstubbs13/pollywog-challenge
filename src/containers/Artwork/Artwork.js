@@ -13,6 +13,7 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
 // import AppMessage component
 import AppMessage from '../../components/AppMessage';
 // import external css fille
@@ -44,7 +45,7 @@ const styles = theme => ({
     flexDirection: 'column',
     flexWrap: 'wrap',
     width: '50%',
-    border: '1px solid var(--app-dark-color)',
+    border: '1px solid var(--app-light-color)',
   },
   artDetailsContainer: {
     marginTop: 30,
@@ -209,14 +210,17 @@ class Artwork extends Component {
             <div className={classes.artInfo}>
               <Paper className={classes.root} elevation={5}>
                 <div className={classes.buttons}>
-                  <Button variant="contained" className={classes.backBtn} color="primary" onClick={this.goBack}>
+                  <Button variant="outlined" className={classes.backBtn} color="secondary" onClick={this.goBack}>
                     <i className="fas fa-chevron-left" />{' '} back
                   </Button>
                   { path === '/artwork/:id' && (
                     <React.Fragment>
                       <Tooltip title="Add to favorites" placement="bottom">
-                        <IconButton color="inherit" className={classes.favoriteBtn} onClick={() => this.handleSaveToFavorites()}>
-                          <i className="far fa-star" />
+                        <IconButton
+                          className={classes.favoriteBtn}
+                          onClick={() => this.handleSaveToFavorites()}
+                        >
+                          <StarBorderOutlined />
                         </IconButton>
                       </Tooltip>
                       <AppMessage open={open} onClose={() => this.handleClose()} message={`The following art was successfully saved to favorites: ${item._source.title}`} variant="success" link="#" />
@@ -232,7 +236,9 @@ class Artwork extends Component {
                   </Typography>
                 </div>
                 <div className={classes.artDescription}>
-                  {item._source.description}
+                  <Typography variant="body1">
+                    {item._source.description}
+                  </Typography>
                 </div>
                 <div className={classes.artDetailsContainer}>
                   <Typography variant="h5">

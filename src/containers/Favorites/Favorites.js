@@ -13,14 +13,18 @@ import Loading from '../../components/Loading';
 const ArtItemsList = React.lazy(() => import('../../components/ArtItemsList'));
 
 // CSS in JS
-const styles = () => ({
+const styles = theme => ({
   favoritesTitle: {
     fontWeight: 'bold',
+    color: theme.palette.common.black,
   },
   noFavorites: {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
+  },
+  noFavoritesContent: {
+    color: theme.palette.common.black,
   },
 });
 
@@ -50,7 +54,7 @@ class Favorites extends Component {
 
   render() {
     // ES6 destructuring
-    const { classes } = this.props;
+    const { classes, isLoading } = this.props;
     const { favoriteItems } = this.state;
     return (
       <div>
@@ -66,17 +70,18 @@ class Favorites extends Component {
               <ArtItemsList
                 artItems={favoriteItems}
                 numberArt="10000"
+                isLoading={isLoading}
               />
             </Suspense>
           </React.Fragment>
         ) : (
           <div className={classes.noFavorites}>
             <i className="far fa-star fa-4x" />
-            <Typography variant="h3">No favorites yet</Typography>
-            <Typography variant="h6">
+            <Typography variant="h3" className={classes.noFavoritesContent}>No favorites yet</Typography>
+            <Typography variant="h6" className={classes.noFavoritesContent}>
               Use the  <i className="far fa-star" /> to mark any artwork as a favorite.
             </Typography>
-            <Typography variant="h6">
+            <Typography variant="h6" className={classes.noFavoritesContent}>
               Come back here to quickly access your favorites at anytime.
             </Typography>
           </div>
@@ -90,6 +95,7 @@ class Favorites extends Component {
 Favorites.propTypes = {
   classes: PropTypes.object.isRequired,
   artFavoritesDB: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 // export the component from this file.

@@ -14,9 +14,10 @@ import Loading from '../../components/Loading';
 const ArtItemsList = React.lazy(() => import('../../components/ArtItemsList'));
 
 // CSS in JS
-const styles = () => ({
+const styles = theme => ({
   landingTitle: {
     fontWeight: 'bold',
+    color: theme.palette.common.black,
   },
   exploreMoreBtn: {
     marginTop: 15,

@@ -5,16 +5,13 @@ import PropTypes from 'prop-types';
 // import styling and components from material ui library.
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 // CSS in JS
-const styles = {
+const styles = () => ({
   card: {
     width: '100%',
-    borderTop: '1px solid var(--app-dark-color)',
   },
   title: {
     fontSize: 14,
@@ -25,7 +22,7 @@ const styles = {
   footerContent: {
     margin: 10,
   },
-};
+});
 
 // Functional based React component for Footer.
 function Footer(props) {
@@ -45,13 +42,6 @@ function Footer(props) {
           Copyright &copy; 2019
         </Typography>
       </CardContent>
-      <CardActions className={classes.footerContent}>
-        <Button size="medium">
-          <a href="https://github.com/philipstubbs13/pollywog-challenge" target="_blank" rel="noopener noreferrer">
-            Learn More
-          </a>
-        </Button>
-      </CardActions>
     </Card>
   );
 }

@@ -8,14 +8,20 @@ import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+// import the Loading component
+import Loading from '../Loading';
 // import external css file
 import './ArtItemsList.css';
 
 // CSS in JS
-const styles = () => ({
+const styles = theme => ({
   artItem: {
     marginTop: 20,
     flex: 1,
+  },
+  artTitle: {
+    color: theme.palette.common.black,
+    fontWeight: 'bold',
   },
 });
 
@@ -33,32 +39,39 @@ class ArtItemsList extends Component {
       classes,
       artItems,
       numberArt,
+      isLoading,
     } = this.props;
     return (
       <div>
         {/* <div className={classes.artContainer}> */}
         <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
-          {/* Here, we are filtering out invalid images
-          and images that aren't publicly accessible */}
-          {/* Then, we are grabbing the first ten using the splice method. */}
-          {/* Finally, we are using the map method to map over the art
-          and render the art to the page. */}
-          {artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1').splice(0, numberArt).map(item => (
-            <Grid item xs={12} sm={6} md={4} key={item._source.id} className={classes.artItem}>
-              <Link to={{ pathname: `/artwork/${item._source.id}`, state: { artItems } }}>
-                <div className="image">
-                  <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className="artImage" />
-                  <div className="art-title">
-                    <Typography variant="h6">{item._source.title}</Typography>
-                    {/* If the artwork has audio... */}
-                    {item._source.hasOwnProperty(['related:audio-stops']) && (
-                      <Typography variant="h6"><i className="fas fa-volume-up" /> Contains audio</Typography>
-                    )}
-                  </div>
-                </div>
-              </Link>
-            </Grid>
-          ))}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <React.Fragment>
+              {/* Here, we are filtering out invalid images
+              and images that aren't publicly accessible */}
+              {/* Then, we are grabbing the first ten using the splice method. */}
+              {/* Finally, we are using the map method to map over the art
+              and render the art to the page. */}
+              {artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1').splice(0, numberArt).map(item => (
+                <Grid item xs={12} sm={6} md={4} key={item._source.id} className={classes.artItem}>
+                  <Link to={{ pathname: `/artwork/${item._source.id}`, state: { artItems } }}>
+                    <div className="image">
+                      <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className="artImage" />
+                      <div className="art-title">
+                        <Typography variant="h6" className={classes.artTitle}>{item._source.title}</Typography>
+                        {/* If the artwork has audio... */}
+                        {item._source.hasOwnProperty(['related:audio-stops']) && (
+                          <Typography variant="h6"><i className="fas fa-volume-up" /> Contains audio</Typography>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                </Grid>
+              ))}
+            </React.Fragment>
+          )}
         </Grid>
       </div>
     );
@@ -70,6 +83,7 @@ ArtItemsList.propTypes = {
   classes: PropTypes.object.isRequired,
   artItems: PropTypes.array.isRequired,
   numberArt: PropTypes.number.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 // export the component from this file.

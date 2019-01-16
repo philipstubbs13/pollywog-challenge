@@ -15,7 +15,7 @@ import {
 // but replaces the weird IDBRequest objects with promises,
 // plus a couple of other small changes.
 import idb from 'idb';
-// Import styling and components from material ui library.
+// Import styling, components, and theme from material ui library.
 import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 // Import the main external css file for the app.
 import './App.css';
@@ -42,7 +42,13 @@ const styles = () => ({
 
 const theme = createMuiTheme({
   palette: {
-    type: 'light', // Switching the dark mode on is a single property value change.
+    type: 'dark', // Switching the dark mode on is a single property value change.
+    primary: {
+      main: '#263238',
+    },
+    secondary: {
+      main: '#fff',
+    },
   },
   typography: {
     // In Japanese the characters are usually larger.
@@ -57,6 +63,7 @@ class App extends Component {
     artItems: [],
     // eslint-disable-next-line react/no-unused-state
     error: '',
+    isLoading: true,
   }
 
   // When the component mounts.
@@ -96,6 +103,7 @@ class App extends Component {
               tx.complete.then(() => {
                 // eslint-disable-next-line no-undef
                 window.location.reload();
+                this.setState({ isLoading: false });
               });
             })
             // If there is an error, catch the error and save to component state.
@@ -107,7 +115,10 @@ class App extends Component {
         // If there is already art available/stored in IndexedDB,
         // then, there is no need to perform GET request to API.
         // Just add the art stored in IndexedDB to the component state.
-        this.setState({ artItems: obj[0].artItems });
+        this.setState({
+          artItems: obj[0].artItems,
+          isLoading: false,
+        });
       }
     });
   }
@@ -136,7 +147,7 @@ class App extends Component {
   render() {
     // ES6 destructuring
     const { classes } = this.props;
-    const { artItems } = this.state;
+    const { artItems, isLoading } = this.state;
     return (
       <div className="App">
         <Router>
@@ -154,6 +165,7 @@ class App extends Component {
                         handleGetRandomArtwork={this.handleGetRandomArtwork}
                         artItems={artItems}
                         artDB={this.artDB}
+                        isLoading={isLoading}
                       />
                     )}
                   />
@@ -175,6 +187,7 @@ class App extends Component {
                       <Favorites
                         {...props}
                         artFavoritesDB={this.artFavoritesDB}
+                        isLoading={isLoading}
                       />
                     )}
                   />

@@ -66,7 +66,7 @@ function MySnackbarContent(props) {
 
   return (
     <SnackbarContent
-      className={classNames(classes[variant], className)}
+      className={classes.snackbar}
       aria-describedby="client-snackbar"
       message={(
         <span id="client-snackbar" className={classes.message}>
@@ -157,12 +157,13 @@ AppMessage.propTypes = {
   message: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
   link: PropTypes.string,
-  action: PropTypes.string.isRequired,
+  action: PropTypes.string,
 };
 
 // Document/define default props for props that aren't required.
 AppMessage.defaultProps = {
   link: '',
+  action: '',
 };
 
 // export the component from this file.
