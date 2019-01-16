@@ -33,6 +33,7 @@ const styles = theme => ({
 // Class based React component for Landing page/container.
 class Landing extends Component {
   // Initial state
+  // numberArt is the number of artworks to display on the page.
   state = {
     numberArt: 10,
   }
@@ -72,6 +73,9 @@ class Landing extends Component {
       artItems,
     } = this.props;
     const { numberArt } = this.state;
+    // totalValidItems includes only the artworks in IndexedDB that have a valid image
+    // and are publicly accessible.
+    const totalValidItems = artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1');
     return (
       <div>
         <Typography variant="h2" className={classes.landingTitle}>
@@ -95,11 +99,16 @@ class Landing extends Component {
         </Suspense>
         {/* The Load more button at the bottom of the page gives the user */}
         {/* option to load more. */}
-        <div className={classes.loadMoreArt}>
-          <Button variant="contained" color="primary" size="large" onClick={() => this.toggleLoadMore()}>
-            Load more
-          </Button>
-        </div>
+        {/* If the total number of valid artworks in IndexedDB is greater than
+        the number of artworks currently displayed on the screen,
+        then show the load more button. */}
+        {totalValidItems.length > numberArt && (
+          <div className={classes.loadMoreArt}>
+            <Button variant="contained" color="primary" size="large" onClick={() => this.toggleLoadMore()}>
+              Load more
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
