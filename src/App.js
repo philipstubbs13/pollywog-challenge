@@ -41,13 +41,13 @@ const theme = createMuiTheme({
 class App extends Component {
   state = {
     artItems: [],
+    // eslint-disable-next-line react/no-unused-state
+    error: '',
   }
 
   // This function will get ten random artworks from the collection
   // and information about each artwork.
   handleGetRandomArtwork= () => {
-    // ES6 destructuring
-    const { artItems } = this.state;
     // url endpoint for getting random art.
     const url = 'https://search.artsmia.org/random/art?size=70';
     // Make GET request using fetch API.
@@ -62,6 +62,7 @@ class App extends Component {
         console.log(data);
       })
       // If there is an error, catch the error and save to component state.
+      // eslint-disable-next-line react/no-unused-state
       .catch(error => this.setState({ error }));
   };
 
@@ -74,33 +75,33 @@ class App extends Component {
         <Router>
           <React.Fragment>
             <MuiThemeProvider theme={theme}>
-            <NavBar />
-            <div className={classes.appPages}>
-              <Switch>
-                <Route
-                  exact
-                  path="/home"
-                  render={props => (
-                    <Landing
-                      {...props}
-                      handleGetRandomArtwork={this.handleGetRandomArtwork}
-                      artItems={artItems}
-                    />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/home/artwork/:id"
-                  render={props => (
-                    <Artwork
-                      {...props}
-                      artItems={artItems}
-                    />
-                  )}
-                />
-              </Switch>
-            </div>
-          </ MuiThemeProvider>
+              <NavBar />
+              <div className={classes.appPages}>
+                <Switch>
+                  <Route
+                    exact
+                    path="/home"
+                    render={props => (
+                      <Landing
+                        {...props}
+                        handleGetRandomArtwork={this.handleGetRandomArtwork}
+                        artItems={artItems}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/home/artwork/:id"
+                    render={props => (
+                      <Artwork
+                        {...props}
+                        artItems={artItems}
+                      />
+                    )}
+                  />
+                </Switch>
+              </div>
+            </MuiThemeProvider>
           </React.Fragment>
         </Router>
       </div>

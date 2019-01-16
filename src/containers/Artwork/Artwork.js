@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
+// import react-sound package to add sound for artwork that have audio avaiable.
 import Sound from 'react-sound';
 // import styling and components from material-ui library
 import Typography from '@material-ui/core/Typography';
@@ -92,7 +93,9 @@ class Artwork extends Component {
     play: false,
   }
 
+  // This function handles playing and pausing the audio for an artwork.
   togglePlayAudio = () => {
+    // ES6 destructuring.
     const { play } = this.state;
     this.setState({ play: !play });
   };
@@ -102,16 +105,17 @@ class Artwork extends Component {
     const { classes } = this.props;
     const { play } = this.state;
     // Grab the list of artItems from component state.
-    const { artItems } = this.props.location.state;
-    console.log(artItems);
+    const { location } = this.props;
+    const { artItems } = location.state;
     // Grab the id of the specific artwork from props/url
-    const { id } = this.props.match.params;
+    const { match } = this.props;
+    const { id } = match.params;
 
     return (
       <React.Fragment>
         {/* Here, we are filtering the artItems array */}
         {/* To find a particular artwork by the id passed as a param in the url. */}
-        {artItems.filter(item => item._source.id == id).map(item => (
+        {artItems.filter(item => item._source.id === id).map(item => (
           <div className={classes.artworkContainer} key={item._source.id}>
             <div className={classes.art}>
               <img
@@ -120,6 +124,7 @@ class Artwork extends Component {
                 className={classes.artImage}
               />
               <React.Fragment>
+                {/* If an artwork has a related audio, render a play/pause button. */}
                 {item._source.hasOwnProperty(['related:audio-stops']) && (
                   <React.Fragment>
                     {play ? (
@@ -141,7 +146,11 @@ class Artwork extends Component {
                         <i className="fas fa-play" /> Play audio tour
                       </Button>
                     )}
-                    <small className={classes.audioSubtext}>*Don&#39;t hear anything? Check the volume level on your device.</small>
+                    <small
+                      className={classes.audioSubtext}
+                    >
+                      *Don&#39;t hear anything? Check the volume level on your device.
+                    </small>
                   </React.Fragment>
                 )}
               </React.Fragment>
@@ -296,6 +305,7 @@ class Artwork extends Component {
                     </Typography>
                   </div>
                 </div>
+                {/* If an artwork has related exhibitions, list those at the end. */}
                 {item._source.hasOwnProperty(['related:exhibitions']) && (
                   <React.Fragment>
                     {item._source['related:exhibitions'].length > 0 && (
@@ -331,6 +341,8 @@ class Artwork extends Component {
 // Document/check prop types
 Artwork.propTypes = {
   classes: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 // export the component from this file.
