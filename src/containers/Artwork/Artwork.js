@@ -4,6 +4,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
+// import IndexedDB Promised
+// This is a tiny library that mirrors IndexedDB,
+// but replaces the weird IDBRequest objects with promises,
+// plus a couple of other small changes.
+import idb from 'idb';
 // import react-sound package to add sound for artwork that have audio avaiable.
 import Sound from 'react-sound';
 // import styling and components from material-ui library
@@ -13,6 +18,8 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 // import external css fille
 import './Artwork.css';
 
@@ -69,8 +76,16 @@ const styles = theme => ({
     flexDirection: 'column',
     width: '60%',
   },
+  buttons: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   backBtn: {
     marginBottom: 20,
+  },
+  favoriteBtn: {
+    marginBottom: 20,
+    marginLeft: 'auto',
   },
   art: {
     display: 'flex',
@@ -91,6 +106,25 @@ const styles = theme => ({
 class Artwork extends Component {
   state = {
     play: false,
+  }
+
+  handleSaveToFavorites = () => {
+    const { artFavoritesDB } = this.props;
+    // Grab the list of artItems from component state.
+    const { location } = this.props;
+    const { artItems } = location.state;
+    // Grab the id of the specific artwork from props/url
+    const { match } = this.props;
+    const { id } = match.params;
+    const artwork = artItems.filter(item => item._source.id === id);
+    // Open the artDB in IndexedDB.
+    artFavoritesDB().then(db => db.transaction('favorite_art', 'readwrite')
+      // get user info from the IndexedDB store.
+      .objectStore('favorite_art').put({
+        source: artwork[0]._source,
+        id: artwork[0]._id,
+      })
+    );
   }
 
   // This function handles playing and pausing the audio for an artwork.
@@ -157,9 +191,16 @@ class Artwork extends Component {
             </div>
             <div className={classes.artInfo}>
               <Paper className={classes.root} elevation={5}>
-                <Button variant="contained" className={classes.backBtn} color="primary" component={Link} to="/home">
-                  <i className="fas fa-chevron-left" />{' '} back
-                </Button>
+                <div className={classes.buttons}>
+                  <Button variant="contained" className={classes.backBtn} color="primary" component={Link} to="/home">
+                    <i className="fas fa-chevron-left" />{' '} back
+                  </Button>
+                  <Tooltip title="Add to favorites" placement="bottom">
+                    <IconButton color="inherit" className={classes.favoriteBtn} onClick={() => this.handleSaveToFavorites()}>
+                      <i className="far fa-star" />
+                    </IconButton>
+                  </Tooltip>
+                </div>
                 <div className={classes.artTitle}>
                   <Typography variant="h5" component="h3">
                     {item._source.title}

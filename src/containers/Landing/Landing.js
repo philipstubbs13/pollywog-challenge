@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 // import styling and components from material-ui library
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 // import the Loading component
 import Loading from '../../components/Loading';
 // import the ArtItemsList component using lazy loading.
@@ -24,14 +25,25 @@ class Landing extends Component {
   // When the component mounts to the page.
   componentDidMount() {
     // ES6 destructuring
-    const { handleGetRandomArtwork } = this.props;
+    const { handleGetRandomArtwork, artDB } = this.props;
     // Get 10 random pieces of art.
-    handleGetRandomArtwork();
+    // handleGetRandomArtwork();
+  }
+
+  clearArtDb = () => {
+    const { artDB, handleGetRandomArtwork } = this.props;
+    artDB().then((db) => {
+      const txxx = db.transaction('random_art', 'readwrite');
+      txxx.objectStore('random_art').clear();
+      txxx.complete.then(() => {
+        handleGetRandomArtwork();
+      });
+    });
   }
 
   render() {
     // ES6 destructuring
-    const { classes, artItems, handleGetRandomArtwork } = this.props;
+    const { classes, artItems, clearArtDb, artFavoritesDB } = this.props;
     return (
       <div>
         <Typography variant="h4" className={classes.landingTitle}>
@@ -41,7 +53,7 @@ class Landing extends Component {
         show some fallback content while we’re waiting for it to load.
          This is done using the Suspense component */}
         <Suspense fallback={<Loading />}>
-          <ArtItemsList artItems={artItems} handleGetRandomArtwork={handleGetRandomArtwork} />
+          <ArtItemsList artItems={artItems} clearArtDb={this.clearArtDb} artFavoritesDB={artFavoritesDB} />
         </Suspense>
       </div>
     );

@@ -18,6 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 // import external css file
 import './NavBar.css';
 
@@ -171,9 +172,11 @@ class NavBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton>
-                <i className="far fa-star" />
-              </IconButton>
+              <Tooltip title="Favorites" placement="bottom">
+                <IconButton>
+                  <i className="far fa-star" />
+                </IconButton>
+              </Tooltip>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">

@@ -47,7 +47,7 @@ class Landing extends Component {
     // ES6 destructuring
     const { handleGetRandomArtwork } = this.props;
     // Get 10 random pieces of art.
-    handleGetRandomArtwork();
+    // handleGetRandomArtwork();
   }
 
   // Ths function handles loading more artwork
@@ -67,13 +67,13 @@ class Landing extends Component {
 
   render() {
     // ES6 destructuring
-    const { classes, artItems, handleGetRandomArtwork } = this.props;
+    const { classes, artItems, handleGetRandomArtwork, clearArtDb, artFavoritesDB } = this.props;
     const { numberArt } = this.state;
     return (
       <div>
         {/* When user clicks the Explore more button on the Landing page. */}
         {/* Fetch 10 different random artworks from the API. */}
-        <Button variant="contained" className={classes.exploreMoreBtn} color="primary" size="large" onClick={() => handleGetRandomArtwork()}>
+        <Button variant="contained" className={classes.exploreMoreBtn} color="primary" size="large" onClick={() => clearArtDb()}>
           Explore more
         </Button>
         <div className={classes.artContainer}>
