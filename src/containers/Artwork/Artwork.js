@@ -101,6 +101,11 @@ const styles = theme => ({
 
 // Class based React component for the Artwork Details page/container
 class Artwork extends Component {
+  constructor(props) {
+    super(props);
+    this.goBack = this.goBack.bind(this);
+  }
+
   state = {
     play: false,
     open: false,
@@ -118,8 +123,8 @@ class Artwork extends Component {
     artFavoritesDB().then(db => db.transaction('favorite_art', 'readwrite')
       // get user info from the IndexedDB store.
       .objectStore('favorite_art').put({
-        source: artwork[0]._source,
-        id: artwork[0]._id,
+        _source: artwork[0]._source,
+        _id: artwork[0]._id,
       })
       .then(() => {
         this.setState({ open: true });
@@ -143,13 +148,22 @@ class Artwork extends Component {
     });
   };
 
+  goBack() {
+    const { history } = this.props;
+    history.goBack();
+  }
+
   render() {
     // ES6 destructuring
-    const { classes, artItems } = this.props;
+    const { classes, location } = this.props;
     const { play, open } = this.state;
+    const { state } = location;
+    const { artItems } = state;
     // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
+    const { path } = match;
+    console.log(this.props.from);
 
     return (
       <React.Fragment>
@@ -198,15 +212,19 @@ class Artwork extends Component {
             <div className={classes.artInfo}>
               <Paper className={classes.root} elevation={5}>
                 <div className={classes.buttons}>
-                  <Button variant="contained" className={classes.backBtn} color="primary" component={Link} to="/home">
+                  <Button variant="contained" className={classes.backBtn} color="primary" onClick={this.goBack}>
                     <i className="fas fa-chevron-left" />{' '} back
                   </Button>
-                  <Tooltip title="Add to favorites" placement="bottom">
-                    <IconButton color="inherit" className={classes.favoriteBtn} onClick={() => this.handleSaveToFavorites()}>
-                      <i className="far fa-star" />
-                    </IconButton>
-                  </Tooltip>
-                  <AppMessage open={open} onClose={() => this.handleClose()} message={`The following art was successfully saved to favorites: ${item._source.title}`} variant="success" action="Close" link="#" />
+                  { path === '/artwork/:id' && (
+                    <React.Fragment>
+                      <Tooltip title="Add to favorites" placement="bottom">
+                        <IconButton color="inherit" className={classes.favoriteBtn} onClick={() => this.handleSaveToFavorites()}>
+                          <i className="far fa-star" />
+                        </IconButton>
+                      </Tooltip>
+                      <AppMessage open={open} onClose={() => this.handleClose()} message={`The following art was successfully saved to favorites: ${item._source.title}`} variant="success" link="#" />
+                    </React.Fragment>
+                  )}
                 </div>
                 <div className={classes.artTitle}>
                   <Typography variant="h5" component="h3">

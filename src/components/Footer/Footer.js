@@ -36,7 +36,7 @@ function Footer(props) {
     <Card className={classes.card}>
       <CardContent className={classes.footerContent}>
         <Typography variant="h5" component="h2">
-          MyArtSearch
+          Explore Art
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
           Phil Stubbs

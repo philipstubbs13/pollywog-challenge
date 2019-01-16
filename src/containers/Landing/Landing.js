@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 // import styling and components from material-ui library
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 // import the Loading component
 import Loading from '../../components/Loading';
 // import the ArtItemsList component using lazy loading.
@@ -17,10 +18,24 @@ const styles = () => ({
   landingTitle: {
     fontWeight: 'bold',
   },
+  exploreMoreBtn: {
+    marginTop: 15,
+  },
+  loadMoreArt: {
+    marginTop: 30,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
 });
 
 // Class based React component for Landing page/container.
 class Landing extends Component {
+  // Initial state
+  state = {
+    numberArt: 10,
+  }
+
   // Ths function handles clearing out the all the artwork currently stored
   // in indexed db when the user clicks the Explore More button.
   clearArtDb = () => {
@@ -40,26 +55,51 @@ class Landing extends Component {
     });
   }
 
+  // Ths function handles loading more artwork
+  // when the user clicks load more at the bottom of the page.
+  toggleLoadMore = () => {
+    // ES6 destructuring
+    const { numberArt } = this.state;
+    // numberArt determines how many artworks to render on the Landing page.
+    this.setState({ numberArt: numberArt + 4 });
+  }
+
   render() {
     // ES6 destructuring
     const {
       classes,
       artItems,
     } = this.props;
+    const { numberArt } = this.state;
+    console.log(this.props);
     return (
       <div>
-        <Typography variant="h4" className={classes.landingTitle}>
-          Explore art from around the world
+        <Typography variant="h2" className={classes.landingTitle}>
+          Explore Art
         </Typography>
         {/* If the ArtItemsList is not yet loaded by the time Landing page renders,
         show some fallback content while we’re waiting for it to load.
          This is done using the Suspense component */}
+        {/* When user clicks the Explore more button on the Landing page. */}
+        {/* Fetch 10 different random artworks from the API. */}
+        {/* Then update/add to indexed db. */}
+        <Button variant="contained" className={classes.exploreMoreBtn} color="primary" size="large" onClick={() => this.clearArtDb()}>
+          Explore more
+        </Button>
         <Suspense fallback={<Loading />}>
           <ArtItemsList
             artItems={artItems}
             clearArtDb={this.clearArtDb}
+            numberArt={numberArt}
           />
         </Suspense>
+        {/* The Load more button at the bottom of the page gives the user */}
+        {/* option to load more. */}
+        <div className={classes.loadMoreArt}>
+          <Button variant="contained" color="primary" size="large" onClick={() => this.toggleLoadMore()}>
+            Load more
+          </Button>
+        </div>
       </div>
     );
   }

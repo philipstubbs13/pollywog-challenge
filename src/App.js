@@ -22,6 +22,7 @@ import './App.css';
 // Import the containers/pages for the app
 import Landing from './containers/Landing';
 import Artwork from './containers/Artwork';
+import Favorites from './containers/Favorites';
 // Import the NavBar component
 import NavBar from './components/NavBar';
 // Import the Footer component
@@ -127,7 +128,7 @@ class App extends Component {
   artFavoritesDB = () => idb.open('art_favorite_store', 1, (upgradeDb) => {
     // eslint-disable-next-line default-case
     switch (upgradeDb.oldVersion) {
-      case 0: upgradeDb.createObjectStore('favorite_art', { keyPath: 'id' });
+      case 0: upgradeDb.createObjectStore('favorite_art', { keyPath: '_id' });
     }
   })
 
@@ -146,7 +147,7 @@ class App extends Component {
                 <Switch>
                   <Route
                     exact
-                    path="/home"
+                    path="/"
                     render={props => (
                       <Landing
                         {...props}
@@ -158,11 +159,21 @@ class App extends Component {
                   />
                   <Route
                     exact
-                    path="/home/artwork/:id"
+                    path="/artwork/:id"
                     render={props => (
                       <Artwork
                         {...props}
                         artItems={artItems}
+                        artFavoritesDB={this.artFavoritesDB}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/favorites"
+                    render={props => (
+                      <Favorites
+                        {...props}
                         artFavoritesDB={this.artFavoritesDB}
                       />
                     )}

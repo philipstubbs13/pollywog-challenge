@@ -18,6 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Tooltip from '@material-ui/core/Tooltip';
+import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
 // import external css file
 import './NavBar.css';
 
@@ -153,9 +154,9 @@ class NavBar extends React.Component {
             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
             </IconButton>
-            <Link to="/home" style={{ textDecoration: 'none', color: 'var(--app-light-color)' }}>
+            <Link to="/" style={{ textDecoration: 'none', color: 'var(--app-light-color)' }}>
               <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                MyArtSearch
+                Explore Art
               </Typography>
             </Link>
             <div className={classes.search}>
@@ -173,8 +174,8 @@ class NavBar extends React.Component {
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <Tooltip title="Favorites" placement="bottom">
-                <IconButton>
-                  <i className="far fa-star" />
+                <IconButton component={Link} to="/favorites">
+                  <StarBorderOutlined />
                 </IconButton>
               </Tooltip>
             </div>
