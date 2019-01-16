@@ -1,5 +1,5 @@
 // Global import of React.
-import React, { Component, lazy, Suspense } from 'react';
+import React, { Component } from 'react';
 // import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
 // Importing React Router to add page routes.
@@ -19,10 +19,13 @@ import Landing from './containers/Landing';
 import Artwork from './containers/Artwork';
 // Import the NavBar component
 import NavBar from './components/NavBar';
+// Import the Footer component
+import Footer from './components/Footer';
 
 const styles = () => ({
   appPages: {
     margin: '4rem',
+    minHeight: 'calc(100vh - 300px)',
   },
 });
 
@@ -101,6 +104,7 @@ class App extends Component {
                   />
                 </Switch>
               </div>
+              <Footer />
             </MuiThemeProvider>
           </React.Fragment>
         </Router>

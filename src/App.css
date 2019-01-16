@@ -7,3 +7,7 @@
 	--app-dark-color: black;
 	--app-transparent-color: rgba(0, 0, 0, 0);
 }
+
+a {
+  text-decoration: none;
+}
