@@ -42,14 +42,6 @@ class Landing extends Component {
     numberArt: 10,
   }
 
-  // When the component mounts to the page.
-  componentDidMount() {
-    // ES6 destructuring
-    const { handleGetRandomArtwork } = this.props;
-    // Get 10 random pieces of art.
-    // handleGetRandomArtwork();
-  }
-
   // Ths function handles loading more artwork
   // when the user clicks load more at the bottom of the page.
   toggleLoadMore = () => {
@@ -67,12 +59,17 @@ class Landing extends Component {
 
   render() {
     // ES6 destructuring
-    const { classes, artItems, handleGetRandomArtwork, clearArtDb, artFavoritesDB } = this.props;
+    const {
+      classes,
+      artItems,
+      clearArtDb,
+    } = this.props;
     const { numberArt } = this.state;
     return (
       <div>
         {/* When user clicks the Explore more button on the Landing page. */}
         {/* Fetch 10 different random artworks from the API. */}
+        {/* Then update/add to indexed db. */}
         <Button variant="contained" className={classes.exploreMoreBtn} color="primary" size="large" onClick={() => clearArtDb()}>
           Explore more
         </Button>
@@ -88,10 +85,10 @@ class Landing extends Component {
                 <div className="image">
                   <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className="artImage" />
                   <div className="art-title">
-                    <Typography variant="title">{item._source.title}</Typography>
+                    <Typography variant="h6">{item._source.title}</Typography>
                     {/* If the artwork has audio... */}
                     {item._source.hasOwnProperty(['related:audio-stops']) && (
-                      <Typography variant="title"><i className="fas fa-volume-up" /> Contains audio</Typography>
+                      <Typography variant="h6"><i className="fas fa-volume-up" /> Contains audio</Typography>
                     )}
                   </div>
                 </div>
@@ -114,7 +111,7 @@ class Landing extends Component {
 // Document/check prop types
 Landing.propTypes = {
   classes: PropTypes.object.isRequired,
-  handleGetRandomArtwork: PropTypes.func.isRequired,
+  clearArtDb: PropTypes.func.isRequired,
   artItems: PropTypes.array.isRequired,
 };
 

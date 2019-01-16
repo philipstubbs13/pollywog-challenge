@@ -17,11 +17,11 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 // import external css file
 import './NavBar.css';
 
+// CSS in JS
 const styles = theme => ({
   root: {
     width: '100%',

@@ -4,11 +4,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
-// import IndexedDB Promised
-// This is a tiny library that mirrors IndexedDB,
-// but replaces the weird IDBRequest objects with promises,
-// plus a couple of other small changes.
-import idb from 'idb';
 // import react-sound package to add sound for artwork that have audio avaiable.
 import Sound from 'react-sound';
 // import styling and components from material-ui library
@@ -20,6 +15,8 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+// import AppMessage component
+import AppMessage from '../../components/AppMessage';
 // import external css fille
 import './Artwork.css';
 
@@ -106,13 +103,13 @@ const styles = theme => ({
 class Artwork extends Component {
   state = {
     play: false,
+    open: false,
   }
 
   handleSaveToFavorites = () => {
     const { artFavoritesDB } = this.props;
     // Grab the list of artItems from component state.
-    const { location } = this.props;
-    const { artItems } = location.state;
+    const { artItems } = this.props;
     // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
@@ -124,7 +121,9 @@ class Artwork extends Component {
         source: artwork[0]._source,
         id: artwork[0]._id,
       })
-    );
+      .then(() => {
+        this.setState({ open: true });
+      }));
   }
 
   // This function handles playing and pausing the audio for an artwork.
@@ -134,13 +133,20 @@ class Artwork extends Component {
     this.setState({ play: !play });
   };
 
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({
+      open: false,
+    });
+  };
+
   render() {
     // ES6 destructuring
-    const { classes } = this.props;
-    const { play } = this.state;
-    // Grab the list of artItems from component state.
-    const { location } = this.props;
-    const { artItems } = location.state;
+    const { classes, artItems } = this.props;
+    const { play, open } = this.state;
     // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
@@ -200,6 +206,7 @@ class Artwork extends Component {
                       <i className="far fa-star" />
                     </IconButton>
                   </Tooltip>
+                  <AppMessage open={open} onClose={() => this.handleClose()} message={`The following art was successfully saved to favorites: ${item._source.title}`} variant="success" action="Close" link="#" />
                 </div>
                 <div className={classes.artTitle}>
                   <Typography variant="h5" component="h3">
@@ -382,8 +389,9 @@ class Artwork extends Component {
 // Document/check prop types
 Artwork.propTypes = {
   classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  artFavoritesDB: PropTypes.func.isRequired,
+  artItems: PropTypes.array.isRequired,
 };
 
 // export the component from this file.
