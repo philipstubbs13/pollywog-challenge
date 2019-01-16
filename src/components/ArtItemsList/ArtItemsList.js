@@ -7,18 +7,12 @@ import { Link } from 'react-router-dom';
 // import styling and components from material-ui library
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 // import external css file
 import './ArtItemsList.css';
 
 // CSS in JS
 const styles = () => ({
-  artContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
   artItem: {
     marginTop: 20,
     flex: 1,
@@ -40,17 +34,17 @@ class ArtItemsList extends Component {
       artItems,
       numberArt,
     } = this.props;
-    console.log(artItems);
     return (
       <div>
-        <div className={classes.artContainer}>
+        {/* <div className={classes.artContainer}> */}
+        <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
           {/* Here, we are filtering out invalid images
           and images that aren't publicly accessible */}
           {/* Then, we are grabbing the first ten using the splice method. */}
           {/* Finally, we are using the map method to map over the art
           and render the art to the page. */}
           {artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1').splice(0, numberArt).map(item => (
-            <div className={classes.artItem} key={item._source.id}>
+            <Grid item xs={12} sm={6} md={4} key={item._source.id} className={classes.artItem}>
               <Link to={{ pathname: `/artwork/${item._source.id}`, state: { artItems } }}>
                 <div className="image">
                   <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className="artImage" />
@@ -63,9 +57,9 @@ class ArtItemsList extends Component {
                   </div>
                 </div>
               </Link>
-            </div>
+            </Grid>
           ))}
-        </div>
+        </Grid>
       </div>
     );
   }
@@ -74,8 +68,8 @@ class ArtItemsList extends Component {
 // Document/check prop types
 ArtItemsList.propTypes = {
   classes: PropTypes.object.isRequired,
-  clearArtDb: PropTypes.func.isRequired,
   artItems: PropTypes.array.isRequired,
+  numberArt: PropTypes.number.isRequired,
 };
 
 // export the component from this file.

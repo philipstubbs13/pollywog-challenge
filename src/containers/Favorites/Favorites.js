@@ -43,7 +43,7 @@ class Favorites extends Component {
       if (obj.length) {
         this.setState({
           favoriteItems: obj,
-        })
+        });
       }
     });
   }
@@ -52,7 +52,6 @@ class Favorites extends Component {
     // ES6 destructuring
     const { classes } = this.props;
     const { favoriteItems } = this.state;
-    console.log(favoriteItems);
     return (
       <div>
         {/* If the favorites are not yet loaded by the time Favorites page renders,
@@ -90,8 +89,7 @@ class Favorites extends Component {
 // Document/check prop types
 Favorites.propTypes = {
   classes: PropTypes.object.isRequired,
-  artItems: PropTypes.array.isRequired,
-  artDB: PropTypes.func.isRequired,
+  artFavoritesDB: PropTypes.func.isRequired,
 };
 
 // export the component from this file.

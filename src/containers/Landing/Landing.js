@@ -71,7 +71,6 @@ class Landing extends Component {
       artItems,
     } = this.props;
     const { numberArt } = this.state;
-    console.log(this.props);
     return (
       <div>
         <Typography variant="h2" className={classes.landingTitle}>

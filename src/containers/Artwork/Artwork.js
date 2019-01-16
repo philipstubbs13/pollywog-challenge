@@ -1,7 +1,5 @@
 // Global import of React.
 import React, { Component } from 'react';
-// import third party linking library.
-import { Link } from 'react-router-dom';
 // import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
 // import react-sound package to add sound for artwork that have audio avaiable.
@@ -163,7 +161,6 @@ class Artwork extends Component {
     const { match } = this.props;
     const { id } = match.params;
     const { path } = match;
-    console.log(this.props.from);
 
     return (
       <React.Fragment>
@@ -410,6 +407,8 @@ Artwork.propTypes = {
   match: PropTypes.object.isRequired,
   artFavoritesDB: PropTypes.func.isRequired,
   artItems: PropTypes.array.isRequired,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 // export the component from this file.
