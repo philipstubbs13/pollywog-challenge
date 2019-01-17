@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import third party linking library for linking/routing.
 import { Link } from 'react-router-dom';
-// import classnames package
+// import classnames package for conditionaly combining classnames
 import classNames from 'classnames';
 // import styling and components from the material ui library.
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -53,7 +53,9 @@ const styles1 = theme => ({
   },
 });
 
+// Functional React based component for the content of the app message.
 function MySnackbarContent(props) {
+  // ES6 destructuring
   const {
     classes,
     className,

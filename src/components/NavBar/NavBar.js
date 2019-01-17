@@ -14,8 +14,6 @@ import HelpOutlineOutlined from '@material-ui/icons/HelpOutlineOutlined';
 import InfoOutlined from '@material-ui/icons/InfoOutlined';
 import Tooltip from '@material-ui/core/Tooltip';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
-// import external css file
-import './NavBar.css';
 
 // CSS in JS
 const styles = theme => ({
@@ -39,6 +37,7 @@ const styles = theme => ({
   },
 });
 
+// Class based React component for the top navigation bar.
 class NavBar extends React.Component {
   render() {
     // ES6 destructuring.

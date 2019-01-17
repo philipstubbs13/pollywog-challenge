@@ -1,6 +1,6 @@
 // Global import of React so that we can use it.
 // and add Suspense to add loading component while waiting to
-// render/retrieve artwork from API request.
+// render/retrieve artwork from store.
 import React, { Component, Suspense } from 'react';
 // import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
@@ -75,6 +75,7 @@ class Favorites extends Component {
             </Suspense>
           </React.Fragment>
         ) : (
+          // If there are no favorites yet, display some default/placeholder text.
           <div className={classes.noFavorites}>
             <i className="far fa-star fa-4x" />
             <Typography variant="h3" className={classes.noFavoritesContent}>No favorites yet</Typography>

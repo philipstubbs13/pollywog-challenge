@@ -46,8 +46,10 @@ function Footer(props) {
   );
 }
 
+// Document/validate props that are passed to the component.
 Footer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+// export the component from this file.
 export default withStyles(styles)(Footer);

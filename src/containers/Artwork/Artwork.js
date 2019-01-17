@@ -16,7 +16,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
 // import AppMessage component
 import AppMessage from '../../components/AppMessage';
-// import external css fille
+// import external css file for this component.
 import './Artwork.css';
 
 // CSS in JS
@@ -126,19 +126,20 @@ class Artwork extends Component {
 
   // Initial state.
   // Play is false so if there's audio it doesn't play automatically.
-  // open is used to open the snackbar message when user saves to favorites.
-  // favoriteItems is an array of all the items that the user favorited so far.
+  // open is used to open the snackbar message when user saves art to favorites.
+  // findSavedItem is an array that will be empty if the particular artwork
+  // is not saved to user's favorites.
   state = {
     play: false,
     open: false,
     findSavedItem: [],
   }
 
+  // When the component mounts to the page.
   componentDidMount() {
     // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
-    // When App commpent mounts
     // Open the artFavoritesDB in IndexedDB.
     const { artFavoritesDB } = this.props;
     artFavoritesDB().then(db => db.transaction('favorite_art')
@@ -212,6 +213,7 @@ class Artwork extends Component {
 
   // If an artwork does not have an image available,
   // use the default/placeholder image instead.
+  // This solves the issue of broken image links.
   addDefaultSrc(ev) {
     ev.target.src = 'https://1.api.artsmia.org/15790.jpg';
   }
@@ -295,6 +297,8 @@ class Artwork extends Component {
                     </React.Fragment>
                   )}
                 </div>
+                {/* The following information is all information we
+                got from the ElasticSearch API and saved to the IndexedDB store. */}
                 <div className={classes.artTitle}>
                   <Typography variant="h5" component="h3">
                     {item._source.title}

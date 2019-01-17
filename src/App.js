@@ -30,7 +30,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 
 // Using uuid/v1 package to generate a random id
-// for storing objects in IndexedDB.
+// for storing objects in IndexedDB store.
 const uuidv1 = require('uuid/v1');
 
 // CSS in JS
@@ -52,7 +52,6 @@ const theme = createMuiTheme({
     },
   },
   typography: {
-    // In Japanese the characters are usually larger.
     fontSize: 12,
     useNextVariants: true,
   },
@@ -69,10 +68,11 @@ class App extends Component {
 
   // When the component mounts.
   componentDidMount() {
+    // Get artwork from the store.
     this.handleGetRandomArtwork();
   }
 
-  // This function handles getting random art from IndexedDB(if exists)
+  // This function handles getting random art from IndexedDB store(if exists)
   // or from the API.
   handleGetRandomArtwork = () => {
     // Open the artDB in IndexedDB.

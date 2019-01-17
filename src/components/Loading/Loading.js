@@ -4,7 +4,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
 // Function based component for Loading.
-// This will display while waiting for UI to render.
+// This will display while waiting for UI to render/grab artwork data from IndexedDB.
 function Loading() {
   return (
     <div>

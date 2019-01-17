@@ -62,6 +62,7 @@ class Landing extends Component {
 
   // Ths function handles clearing out the all the artwork currently stored
   // in indexed db when the user clicks the Explore More button.
+  // It doesn't clear out the favorited artwork though.
   clearArtDb = () => {
     // ES6 destructuring
     const { artDB, handleGetRandomArtwork } = this.props;
@@ -88,8 +89,12 @@ class Landing extends Component {
     this.setState({ numberArt: numberArt + 4 });
   }
 
+  // This function handles filtering the array of art items in the store to 
+  // only include the artwork that has audio.
   filterAudio = () => {
+    // ES6 destructuring.
     const { artItems } = this.props;
+    // We want to take all the valid artworks in the store and perform a filter.
     const totalValidItems = artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1');
     const hasAudioItems = totalValidItems.filter(item => item._source.hasOwnProperty(['related:audio-stops']));
     this.setState({
@@ -98,6 +103,7 @@ class Landing extends Component {
     });
   }
 
+  // This handles clearing the audio filter to display all artwork.
   clearAudioFilter = () => {
     this.setState({
       hasAudio: false,

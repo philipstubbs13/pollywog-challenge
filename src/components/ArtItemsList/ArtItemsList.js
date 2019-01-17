@@ -51,6 +51,8 @@ class ArtItemsList extends Component {
     return (
       <div>
         <Grid container direction="row" justify="flex-start" className={classes.artContainer} alignItems="center" spacing={24}>
+          {/* If the app is still loading the artwork, show the loading component. */}
+          {/* Otherwise, display the artwork to the user. */}
           {isLoading ? (
             <Loading />
           ) : (
@@ -67,7 +69,7 @@ class ArtItemsList extends Component {
                       <img onError={this.addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className="artImage" />
                       <div className="art-title">
                         <Typography variant="h6" className={classes.artTitle}>{item._source.title}</Typography>
-                        {/* If the artwork has audio... */}
+                        {/* If the artwork has audio, display this with the image... */}
                         {item._source.hasOwnProperty(['related:audio-stops']) && (
                           <Typography variant="h6"><i className="fas fa-volume-up" /> Contains audio</Typography>
                         )}
