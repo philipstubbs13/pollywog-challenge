@@ -38,8 +38,8 @@ const uuidv1 = require('uuid/v1');
 // CSS in JS
 const styles = () => ({
   appPages: {
-    margin: '2.5rem',
-    minHeight: 'calc(100vh - 300px)',
+    margin: '2rem',
+    minHeight: 'calc(100vh - 350px)',
   },
 });
 

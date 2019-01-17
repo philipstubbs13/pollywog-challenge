@@ -12,6 +12,8 @@ import Typography from '@material-ui/core/Typography';
 const styles = () => ({
   card: {
     width: '100%',
+    marginTop: 50,
+    height: '10rem',
   },
   title: {
     fontSize: 14,
