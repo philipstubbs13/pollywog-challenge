@@ -1,4 +1,5 @@
 # Explore Art
+Explore Art is a web app that allows you to search and find information about different artwork that is found in the Minneapolis Institute of Art's collection. You can also favorite artwork you like to view at a later time.
 
 ## Table of contents
 
@@ -151,9 +152,64 @@ After the development server has started, a browser window should open, and you 
 
 This project is built using [React](https://reactjs.org/), which is an open source JavaScript library developed at Facebook specifically for the task of developing user interfaces. React relies on a component-based architecture where elements of the user interface are broken into small chunks of code called components. To design and build the user interface, I used the [Material UI](https://material-ui.com/) library, which is a 3rd party UI library of React components that mimic Google's [Material Design specification](https://material.io/). I used Material UI for styling, theming, and incorporating cool components. As to the grid/layout system I used, I went with Flexbox, making it easy to design for mobile, tablet, and desktop screens.
 
-This project also uses art data from the Minneapolis Institute of Art's [ElasticSearch API](https://github.com/artsmia/collection-elasticsearch). To be able to store and handle the art data that comes back from the API, I decided to to use Jake Archibald's [IndexedDB Promised](https://github.com/jakearchibald/idb) library, which is similar to the IndexedDB API, but uses promises instead of events. IndexedDB is basically a noSQL storage option that allows the data that comes back from the API response to be stored/cached in the user's browser. Most browsers do support this option, making data storage and retrieval very efficient. For a list of browsers that support IndexedDB, go [here](https://caniuse.com/#search=indexeddb). 
+This project also uses art data from the Minneapolis Institute of Art's [ElasticSearch API](https://github.com/artsmia/collection-elasticsearch). To be able to store and handle the art data that comes back from the API, I decided to to use Jake Archibald's [IndexedDB Promised](https://github.com/jakearchibald/idb) library, which is similar to the IndexedDB API, but uses promises instead of events. IndexedDB is basically a noSQL storage option that allows the data that comes back from the API response to be stored/cached in the user's browser. Most browsers do support this option, making data storage and retrieval very efficient. For a list of browsers that support IndexedDB, go [here](https://caniuse.com/#search=indexeddb).
 
 IndexedDB, similar to local storage, allows the app to cache the API response data in the user's browser and eliminate/minimize the need to make unneccessary GET requests to the API. In fact, the only time a GET request to the API is actually made is if the user is a new user and has no artwork currently stored in their IndexedDB store or if the user clicks the <b>Explore More</b> button on the landing page to intentionally get more artwork. The [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) is used to make the request to the ElasticSearch API.
+
+The code for making a request to the API using fetch and adding the data to the IndexedDB store is located in the <b>src/App.js</b> file.
+
+Here's an example:
+
+```bash
+// This function handles getting random art from IndexedDB(if exists)
+  // or from the API.
+  handleGetRandomArtwork = () => {
+    // Open the artDB in IndexedDB.
+    this.artDB().then(db => db.transaction('random_art')
+      // get random art info from the IndexedDB store.
+      .objectStore('random_art').getAll()).then((obj) => {
+      // If there is no art currently in the store (new user)...
+      if (obj.length === 0) {
+        // Open up IndexedDB and then perform GET request to get art from API.
+        this.artDB().then((db) => {
+          // This function will get ten random artworks from the collection
+          // and information about each artwork.
+          // url endpoint for getting random art.
+          const url = 'https://search.artsmia.org/random/art?size=90';
+          // Make GET request using fetch API.
+          fetch(url, {
+            method: 'GET',
+          })
+            .then(response => response.json()).then((data) => {
+              // Create transaction to access IndexedDB.
+              // Add artwork from API response to object store in IndexedDB.
+              const tx = db.transaction('random_art', 'readwrite');
+              tx.objectStore('random_art').put({
+                artItems: data,
+                id: uuidv1(),
+              });
+              // After the transaction is complete, refresh.
+              tx.complete.then(() => {
+                window.location.reload();
+                this.setState({ isLoading: false });
+              });
+            })
+            // If there is an error, catch the error and save to component state.
+            .catch(error => this.setState({ error }));
+          // };
+        });
+      } else {
+        // If there is already art available/stored in IndexedDB,
+        // then, there is no need to perform GET request to API.
+        // Just add the art stored in IndexedDB to the component state.
+        this.setState({
+          artItems: obj[0].artItems,
+          isLoading: false,
+        });
+      }
+    });
+  }
+```
 
 ### <a name="workflow"></a> App workflow
 
@@ -172,6 +228,8 @@ From the Explore Art landing page, you can click on a particular art image to le
 #### Listen to Art Audio (if available)
 
 Some artworks do have audio that you can listen to. If one or more of the artworks stored in the IndexedDB store has an audio file, the <b>Has Audio</b> button will appear on the Explore Art landing page. Clicking this button will filter the art to only list the art that has audio. You can play the audio tour for a particular artwork from the Art Details page. To be able to play the audio within the app, I used [react-sound](https://github.com/leoasis/react-sound).
+
+<img src="./readme_images/audio3.png" alt="audio example">
 
 #### Favorite art
 
@@ -262,6 +320,7 @@ The following is a list of potential enhancements for future code development.
 * Add authentication workflow that allows users to sign up and login.
 * Add search feature that allows users to search/query artwork using the ElasticSearch API.
 * Add the ability to post a comment on a particular artwork and save that comment.
+* Convert code base to use React hooks.
 
 ## <a name ="Issues"></a> Issues
 
