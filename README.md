@@ -29,24 +29,24 @@ If you don't want to set up this project locally and just want to see the deploy
 
 To set up this app locally on your computer, perform the following steps:
 
-  1. [Clone the repository](#clone-repository)
+  1. [Download the code from GitHub](#clone-repository)
   2. [Install Node.js](#install-node)
   3. [Install yarn](#install-yarn)
   4. [Install the project dependencies](#dependencies)
   5. [Start the React development server](#start-server)
 
-###  <a name="clone-repository"></a> 1. Clone the repository
-The first step is to clone the project repository to a local directory on your computer. To clone the repository:
+###  <a name="clone-repository"></a> 1. Download the code from GitHub
+The first step is to download the code from the phil_react_code branch on GitHub to a local directory on your computer. To download the code from phil_react_code:
 
-1. Go to <https://github.com/philipstubbs13/pollywog-challenge/tree/phil_react_code> to get the latest code from the phil_react_code branch.
+1. Go to <https://github.com/philipstubbs13/pollywog-challenge/tree/phil_react_code> and download the latest code from the phil_react_code branch to a local directory on your computer.
 
-2. Run the following commands:
+If you don't have git, you will need git, which you can download [here](https://git-scm.com/downloads).
+
+2. After downloading the code, change directory to the project root directory (pollywog-challenge-phil_react_code)
 
 ```bash
-git clone https://github.com/philipstubbs13/pollywog-challenge.git
-cd ./pollywog-challenge
+cd ./pollywog-challenge-phil_react_code
 ```
-If you don't have git, you will need git, which you can download [here](https://git-scm.com/downloads).
 
 ###  <a name="install-node"></a> 2. Install Node.js
 
@@ -70,7 +70,7 @@ Troubleshooting tip: If you have difficulty starting the app locally, I used yar
 
 ### <a name="dependencies"></a> 4. Install the project dependencies
 
-Change directory into the project root directory (root directory name should be <b>pollywog-challenge</b>) and run the following command to install the required dependencies:
+Change directory into the project root directory and run the following command to install the required dependencies:
 
 ```bash
 yarn install
@@ -113,11 +113,11 @@ This project also uses ESLint and the Airbnb JavaScript style guide to help main
 
 For more information on the Airbnb style guide, go [here](https://github.com/airbnb/javascript).
 
-Version information for each of these packages is available in the <b>package.json</b> file in the project root directory (<b>pollywog-challenge</b>).
+Version information for each of these packages is available in the <b>package.json</b> file in the project root directory.
 
 ###  <a name="start-server"></a> 5. Start the React development server.
 
-After performing all of the setup steps in the <b>Getting started</b> section, navigate to the project root directory (<b>pollywog-challenge</b>) and run the following command to start the React development server:
+After performing all of the setup steps in the <b>Getting started</b> section, navigate to the project root directory (<b>pollywog-challenge-phil_react_code</b>) and run the following command to start the React development server:
 
 ```bash
 yarn start
@@ -244,7 +244,7 @@ To view your favorites, click the star icon in the top navigation bar at the top
 
 ### <a name="project-structure"></a> Structure of the project
 
-After you clone the repository from GitHub, you can navigate to the project root directory (pollywog-challenge). The project directory structure will be set up as follows:
+After you clone the repository from GitHub, you can navigate to the project root directory (pollywog-challenge-phil_react_code). The project directory structure will be set up as follows:
 
 * <b>public</b>: The public folder contains the main index.html file. This HTML file contains a div with an id of root, which is the entry point to the app. This site uses a React component-based architecture to create, build, and render UI components.
 * <b>readme_images</b>: This folder contains screenshots used in the README file.
