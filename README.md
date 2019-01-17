@@ -113,7 +113,7 @@ The first step is to clone the project repository to a local directory on your c
 
 ```bash
 git clone https://github.com/philipstubbs13/pollywog-challenge.git
-cd ./pollywog challenge
+cd ./pollywog-challenge
 ```
 
 ###  <a name="install-node"></a> 2. Install Node.js
@@ -179,6 +179,8 @@ This project also uses ESLint and the Airbnb JavaScript style guide to help main
 * eslint-plugin-jsx-a11y
 * eslint-plugin-react
 
+For more information on the Airbnb style guide, go [here](https://github.com/airbnb/javascript).
+
 Version information for each of these packages is available in the <b>package.json</b> file in the project root directory (<b>pollywog-challenge</b>).
 
 ###  <a name="start-server"></a> 5. Start the React development server.
@@ -193,7 +195,7 @@ After the development server has started, a browser window should open, and you 
 
 ## <a name="deployment"></a> Deploying the app
 
-This site is deployed to Firebase using Firebase Hosting. For more information on hosting with Firebase, see <https://firebase.google.com/docs/hosting/>. To deploy the app, you will need to build a production version of the app as well as have the Firebase CLI installed.
+This site is deployed to Firebase using Firebase Hosting. For more information on hosting with Firebase, see [Firebase Hosting](https://firebase.google.com/docs/hosting/). To deploy the app, you will need to build a production version of the app as well as have the Firebase CLI installed.
 
 1. If not already installed, install the Firebase CLI globally by running the following command:
 
@@ -237,11 +239,9 @@ This command deploys the project to TBD on firebase.
 * Javascript (ES6)
 * [React](https://reactjs.org/)
 * [Material UI](https://material-ui.com/)
-* [IndexedDB Promised](https://github.com/jakearchibald/idb#readme)
-  * Used for storing application state to eliminate unnecessary API requests/calls.
+* [IndexedDB Promised](https://github.com/jakearchibald/idb#readme) - Used for storing application state to eliminate unnecessary API requests/calls.
 * [ESLint](https://eslint.org/)
-* [ElasticSearch API](https://github.com/artsmia/collection-elasticsearch)
-  * Used to search and find art from the Minneapolis Institute of Art collection.
+* [ElasticSearch API](https://github.com/artsmia/collection-elasticsearch) - Used to search and find art from the Minneapolis Institute of Art collection.
 * [Firebase for hosting](https://firebase.google.com/docs/hosting/)
 
 ## <a name="future"></a> Direction for future development
