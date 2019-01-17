@@ -3,12 +3,12 @@
 ## Table of contents
 
 * [Live](#live)
+* [Getting started](#getting-started)
 * [Screenshots](#screenshots)
 * [About this project](#about-this-project)
   * [How the app is built](#how-the-app-is-built)
   * [App workflow](#workflow)
   * [Structure of the project](#project-structure)
-* [Getting started](#getting-started)
 * [Deploying the app](#deployment)
 * [Technologies used to create the app](#technologies-used)
 * [Direction for future development](#future)
@@ -17,96 +17,6 @@
 ## <a name="live"></a>Live
 
 The app is currently live at the following URL:
-
-## <a name="screenshots"></a> Screenshots
-
-### Landing/Explore Art Page
-
-<img src="./readme_images/landing.png">
-
-### Art Details page
-
-<img src="./readme_images/details.png">
-
-### Favorites page
-
-<img src="./readme_images/favorites.png">
-
-### Filter by Audio
-
-<img src="./readme_images/audio1.png">
-
-<img src="./readme_images/audio2.png">
-
-### 404 page
-
-<img src="./readme_images/404.png">
-
-## <a name="about-this-project"></a> About this project
-
-### <a name="how-the-app-is-built"></a> How the app is built
-
-This project is built using React, which is an open source JavaScript library developed at Facebook specifically for the task of developing user interfaces. React relies on a component-based architecture where elements of the user interface are broken into small chunks of code called components. To design and build the user interface, I used the Material UI library, which is a 3rd party UI library of React component's that mimic Google's Material Design specification. I used Material UI for styling, theming, and incorporating cool components. As to the grid/layout system I used, I went with Flexbox, making it easy to design for mobile, tablet, and desktop screens.
-
-This project also uses art data from the Minneapolis Institute of Art's ElasticSearch API. To be able to store and handle the art data that comes back from the API, I decided to to use Jake Archibald's [IndexedDB Promised](https://github.com/jakearchibald/idb) library, which is similar to the IndexedDB API, but uses promises instead of events. IndexedDB is basically a noSQL storage option that allows the data that comes back from the API response to be stored in the user's browser. Most browsers do support this option, making data storage and retrieval very efficient. For a list of browsers that support IndexedDB, go [here](https://caniuse.com/#search=indexeddb). 
-
-IndexedDB, similar to local storage, allows the app to cache the API response data in the user's browser and eliminate/minimize the need to make unneccessary GET requests to the API. In fact, the only time a GET request to the API is actually made is if the user is a new user and has no artwork currently stored in their IndexedDB store or if the user clicks the <b>Explore More</b> button on the landing page to intentionally get more artwork. The Fetch API is used to make the request to the ElasticSearch API.
-
-### <a name="workflow"></a> App workflow
-
-#### Explore Art
-
-When a user visits the app for the first time, they will be taken to the Explore Art landing page. For first time users, a GET request is made to the ElasticSearch API using Fetch to get 10 random pieces of art and display them on the page. After the initial GET request to the API is made, the artwork retrieved from the API is then stored in the user's browser in an IndexedDB store. So, the next time the user visits the app, the app will retrieve the artwork from the IndexedDB store rather than making another request.
-
-On the landing page, I decided to only show 10 pieces of art to the user initially. However, I decided to store more than 10 in the user's IndexedDB store. At the bottom of the landing page, I included a <b>Load More</b> button. Clicking this button will retrieve 4 more artworks from IndexedDB and display them on the landing page.
-
-If the user browses through all of the artwork that is stored in their IndexedDB store, they have the option to get more random artwork from the ElasticSearch API by clicking the <b>Explore More</b> button. Clicking the <b>Explore More</b> button will clear the current artwork stored in the user's IndexedDB store (if the artwork has not been favorited by the user), make another GET request to the API, retrieve the new artwork from the API, and add to IndexedDB to make it available to the user.
-
-#### View Art Details
-
-From the Explore Art landing page, you can click on the art image to learn more about that particular piece of art. Clicking on a piece of art will take you to a separate art details page that includes an image of the artwork and information about that artwork, such as title, artist, artist life, medium, country, nationality, and more. The information about the artwork on the art details page also still comes from the IndexedDB store.
-
-#### Listen to Art Audio (if available)
-
-Some artworks do have audio that you can listen to. If one or more of the artworks stored in the IndexedDB store has an audio file, the <b>Has Audio</b> button will appear on the Explore Art landing page. Clicking this button will filter the art to only list the art that has audio. You can play the audio tour for a particular artwork from the art details page. To be able to play the audio within the app, I used [react-sound](https://github.com/leoasis/react-sound).
-
-#### Favorite art
-
-From the art details page, you can also favorite an artwork that you really like so that you can view and access it quickly later on. Clicking the star icon on the art details page saves the artwork to a separate store from the random artwork store in IndexedDB so that the favorited art doesn't get deleted when another GET request to the API is made.
-
-#### View favorites at later time
-
-To view your favorites, click the star icon in the top navigation bar at the top right corner of the screen. The favorites page has a similar look and feel to the Explore Art landing page. You can click on a particular artwork to view the art details again.
-
-### <a name="project-structure"></a> Structure of the project
-
-After you clone the repository from GitHub, you can navigate to the project root directory (tcsw-sheltrus). The project directory structure will be set up as follows:
-
-* <b>client</b>: This folder is where all the client-side code/React app lives.
-  * <b>public</b>: The public folder contains the main index.html file. This HTML file is a template. The file is empty. So, if you open it directly in a browser, you will get an empty page. Rather than placing the HTML code directly in index.html, this site uses a React component-based architecture to create, build, and render UI components to the page.
-  * <b>src</b>: The src folder is where the React components reside.
-    * <b>App.js</b>: The App.js file is where the components are imported and rendered, such as the top navigation bar, footer, and various pages.
-    * <b>index.js</b>: The index.js file is the top level file of the React app. In index.js, the App.js file is imported, and the ReactDOM.render method is used to render App.js to the page.
-    * <b>components</b>: The Components folder is where the components that are reused across the site are located. Each file represents a separate component. For example, Button.js is the button component that can be reused across the entire app for a consistent look and feel for each button.
-    * <b>containers</b>: Holds all the pages of the app and the child components within those pages. For example, inside of the containers folder, there is a Profile folder. The Profile folder contains a top-level parent container/page called Profile.js
-    * <b>App.css</b> and <b>index.css</b>: The external css stylesheets for the app.
-    * <b>firebase-config.js</b>: contains the Firebase initialization code to connect the app to Firebase.
-    * <b>sheltr-b2.svg</b>: This is the svg version of the app logo.
-  * <b>.eslintrc.json</b>: List of rules and their definitions for ESLint.
-  * <b>.gitignore</b>: Anything listed inside this file (for example, node_modules) will not be tracked by GitHub when code is committed.
-  * <b>package.json</b>: Lists the project dependencies for the client and their version numbers.
-  * <b>README.md</b>: The README file that came with setting up a create-react-app project.
-  * <b>yarn.lock</b>: Dependency tree for the project. Lists all the client dependencies and their versions.
-* <b>functions</b>: Folder for storing Firebase cloud functions. Currently not in use for anything.
-* <b>readme_images</b>: Images used in the project README file.
-* <b>.firebaserc</b>: Hidden file that allows you to quickly switch between projects with 'firebase use'.
-* <b>.gitignore</b>: Anything listed inside this file (for example, node_modules) will not be tracked by GitHub when code is committed.
-* <b>firebase.json</b>: Firebase configuration file required to deploy the app to Firebase.
-* <b>package.json</b>: Lists the project dependencies and their version numbers.
-* <b>yarn.lock</b>: Dependency tree for the project. Lists the project dependencies and their versions.
-* <b>server.js</b>: Contains the code to set up express and make a post request using the Twilio API to create a voice messaging system.
-* <b>README.md</b>: The README file that contains important information about this project.
-* <b>make-call.js</b>: Contains the JavaScript code to make a phone call using the Twilio API.
 
 ## <a name="getting-started"></a> Getting started
 
@@ -172,7 +82,7 @@ The following packages are dependencies to the project.
   * This allows for conditionally joining classNames together.
 * [idb](https://github.com/jakearchibald/idb#readme)
   * This is a tiny library that mirrors IndexedDB, but replaces the weird IDBRequest objects with promises,
-  plus a couple of other small changes. This allows the app to store response data in IndexedDB in the user's browser to limit the number of requests to the Elasticsearch API.
+  plus a couple of other small changes. This allows the app to store response data in IndexedDB in the user's browser to limit the number of requests made to the ElasticSearch API.
 * [prop-types](https://www.npmjs.com/package/prop-types)
   * This is used to document and validate the different properties passed to a component.
 * [react](https://www.npmjs.com/package/react)
@@ -186,7 +96,7 @@ The following packages are dependencies to the project.
 * [react-sound](https://github.com/leoasis/react-sound)
   * This allows us to play the related audio files that come with some of the artwork within the app.
 * [uuid](https://www.npmjs.com/package/uuid)
-  * This is used to generate a random id for using as a key to store the application state in IndexedDB in the user's browser.
+  * This package is used to generate a random id for using as a key to store the application state in IndexedDB in the user's browser.
 
 This project also uses ESLint and the Airbnb JavaScript style guide to help maintain code quality. ESLint includes the following dev dependencies:
 
@@ -210,6 +120,88 @@ yarn start
 ```
 
 After the development server has started, a browser window should open, and you should see the app. If the browser does not automatically open after the server starts, you can verify that the app is working locally on your computer by opening the browser and going to [http://localhost:3000](http://localhost:3000). Note that by default, the development server will try to start up on port 3000. If port 3000 is already in use on your computer, then you might be asked if you want to use a different port.
+
+## <a name="screenshots"></a> Screenshots
+
+### Explore Art Landing Page
+
+<img src="./readme_images/landing.png">
+
+### Art Details page
+
+<img src="./readme_images/details.png">
+
+### Favorites page
+
+<img src="./readme_images/favorites.png">
+
+### Filter Artwork by Audio
+
+<img src="./readme_images/audio1.png">
+
+<img src="./readme_images/audio2.png">
+
+### 404 page
+
+<img src="./readme_images/404.png">
+
+## <a name="about-this-project"></a> About this project
+
+### <a name="how-the-app-is-built"></a> How the app is built
+
+This project is built using [React](https://reactjs.org/), which is an open source JavaScript library developed at Facebook specifically for the task of developing user interfaces. React relies on a component-based architecture where elements of the user interface are broken into small chunks of code called components. To design and build the user interface, I used the [Material UI](https://material-ui.com/) library, which is a 3rd party UI library of React components that mimic Google's [Material Design specification](https://material.io/). I used Material UI for styling, theming, and incorporating cool components. As to the grid/layout system I used, I went with Flexbox, making it easy to design for mobile, tablet, and desktop screens.
+
+This project also uses art data from the Minneapolis Institute of Art's [ElasticSearch API](https://github.com/artsmia/collection-elasticsearch). To be able to store and handle the art data that comes back from the API, I decided to to use Jake Archibald's [IndexedDB Promised](https://github.com/jakearchibald/idb) library, which is similar to the IndexedDB API, but uses promises instead of events. IndexedDB is basically a noSQL storage option that allows the data that comes back from the API response to be stored/cached in the user's browser. Most browsers do support this option, making data storage and retrieval very efficient. For a list of browsers that support IndexedDB, go [here](https://caniuse.com/#search=indexeddb). 
+
+IndexedDB, similar to local storage, allows the app to cache the API response data in the user's browser and eliminate/minimize the need to make unneccessary GET requests to the API. In fact, the only time a GET request to the API is actually made is if the user is a new user and has no artwork currently stored in their IndexedDB store or if the user clicks the <b>Explore More</b> button on the landing page to intentionally get more artwork. The [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) is used to make the request to the ElasticSearch API.
+
+### <a name="workflow"></a> App workflow
+
+#### Explore Art
+
+When a user visits the app for the first time, they will be taken to the Explore Art landing page. For first time users of the app, a GET request is made to the ElasticSearch API using Fetch to get 10 random pieces of art and display them on the page. After the initial GET request to the API is made, the artwork retrieved from the API is then stored in the user's browser in an IndexedDB store. So, the next time the user visits the app, the app will retrieve the artwork from the IndexedDB store rather than making another request.
+
+On the landing page, you will only see 10 pieces of art initially. However, more than 10 are stored in your IndexedDB store. At the bottom of the landing page, you will find a <b>Load More</b> button. Clicking this button will retrieve 4 more artworks from IndexedDB and display them on the landing page.
+
+If you browse through all of the artwork that is stored in your IndexedDB store, you have the option to get more random artwork from the ElasticSearch API by clicking the <b>Explore More</b> button. Clicking the <b>Explore More</b> button will clear the current artwork stored in your IndexedDB store (if you have not favorited the artwork), make another GET request to the API, retrieve the new artwork from the API, and add to IndexedDB to make it available to you.
+
+#### View Art Details
+
+From the Explore Art landing page, you can click on a particular art image to learn more about that particular piece of art. Clicking on a piece of art will take you to a separate Art Details page that includes an image of the artwork and information about that artwork, such as title, artist, artist life, medium, country, nationality, and more. The information about the artwork that appears on the Art Details page also comes from the IndexedDB store.
+
+#### Listen to Art Audio (if available)
+
+Some artworks do have audio that you can listen to. If one or more of the artworks stored in the IndexedDB store has an audio file, the <b>Has Audio</b> button will appear on the Explore Art landing page. Clicking this button will filter the art to only list the art that has audio. You can play the audio tour for a particular artwork from the Art Details page. To be able to play the audio within the app, I used [react-sound](https://github.com/leoasis/react-sound).
+
+#### Favorite art
+
+From the Art Details page, you can also favorite an artwork that you like so that you can view and access it quickly later on. Clicking the star icon on the Art Details page saves the artwork to a separate store from the random artwork store in IndexedDB so that the favorited art doesn't get deleted when another GET request to the API is made.
+
+#### View favorites at later time
+
+To view your favorites, click the star icon in the top navigation bar at the top right corner of the screen. The favorites page has a similar look and feel to the Explore Art landing page. You can click on a particular artwork to view the art details again.
+
+### <a name="project-structure"></a> Structure of the project
+
+After you clone the repository from GitHub, you can navigate to the project root directory (pollywog-challenge). The project directory structure will be set up as follows:
+
+* <b>public</b>: The public folder contains the main index.html file. This HTML file contains a div with an id of root, which is the entry point to the app. This site uses a React component-based architecture to create, build, and render UI components.
+* <b>readme_images</b>: This folder contains screenshots used in the README file.
+* <b>src</b>: The src folder is where the React components reside.
+  * <b>App.js</b>: The App.js file is where the components are imported and rendered, such as the top navigation bar, footer, and various page routes.
+  * <b>index.js</b>: The index.js file is the top level file of the React app. In index.js, the App.js file is imported, and the ReactDOM.render method is used to render App.js.
+  * <b>components</b>: The components folder is where the components that are reused across the app are located. Each file represents a separate component. For example, NavBar is the top navigation bar component that can be reused across the entire app for a consistent look and feel on each page. Each component also has their own, separate css.
+  * <b>containers</b>: This folder holds all the pages of the app. For example, inside of the containers folder, there is a Landing folder. The Landing folder contains a top-level parent container/page for the Explore Art landing page called Landing.js.
+  * <b>App.css</b> and <b>index.css</b>: The external css stylesheets for the app.
+  * <b>firebase-config.js</b>: contains the Firebase initialization code to connect the app to Firebase.
+  * <b>logo.svg</b>: This is just the default React logo.
+* <b>.eslintrc.json</b>: List of rules and their definitions for ESLint. This project uses the Airbnb JavaScript style guide for maintaining code quality.
+* <b>.gitignore</b>: Anything listed inside this file (for example, node_modules) will not be tracked by GitHub when code is committed.
+* <b>package.json</b>: Lists the project dependencies and their version numbers.
+* <b>README.md</b>: Contains important information about this project, such as how to run this app locally, how to deploy, and the technologies used to build the app.
+* <b>yarn.lock</b>: Dependency tree for the project. Lists all the dependencies and their versions.
+* <b>.firebaserc</b>: Hidden file that allows you to quickly switch between projects with 'firebase use'.
+* <b>firebase.json</b>: Firebase configuration file required to deploy the app to Firebase.
 
 ## <a name="deployment"></a> Deploying the app
 
@@ -257,7 +249,7 @@ This command deploys the project to TBD on firebase.
 * Javascript (ES6)
 * [React](https://reactjs.org/)
 * [Material UI](https://material-ui.com/)
-* [IndexedDB Promised](https://github.com/jakearchibald/idb#readme) - Used for storing application state to eliminate unnecessary API requests/calls.
+* [IndexedDB Promised](https://github.com/jakearchibald/idb#readme) - Used for storing application state to eliminate unnecessary API requests.
 * [ESLint](https://eslint.org/)
 * [ElasticSearch API](https://github.com/artsmia/collection-elasticsearch) - Used to search and find art from the Minneapolis Institute of Art collection.
 * [Firebase for hosting](https://firebase.google.com/docs/hosting/)
