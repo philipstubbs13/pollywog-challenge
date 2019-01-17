@@ -73,7 +73,7 @@ class Favorites extends Component {
             <Suspense fallback={<Loading />}>
               <ArtItemsList
                 artItems={favoriteItems}
-                numberArt="10000"
+                numberArt={10000}
                 isLoading={isLoading}
               />
             </Suspense>

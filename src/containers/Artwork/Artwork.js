@@ -458,13 +458,11 @@ class Artwork extends Component {
                         <Divider />
                         <List>
                           {item._source['related:exhibitions'].map(exhibit => (
-                            <React.Fragment>
-                              <div className={classes.exhibitListItem}>
-                                <Typography variant="title">{exhibit.title}</Typography>
-                                <Typography variant="subtitle1">{exhibit.date}</Typography>
-                                <Typography variant="body1">{exhibit.description}</Typography>
-                              </div>
-                            </React.Fragment>
+                            <div className={classes.exhibitListItem} key={exhibit.id}>
+                              <Typography variant="h6">{exhibit.title}</Typography>
+                              <Typography variant="subtitle1">{exhibit.date}</Typography>
+                              <Typography variant="body1">{exhibit.description}</Typography>
+                            </div>
                           ))}
                         </List>
                       </div>
