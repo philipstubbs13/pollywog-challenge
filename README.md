@@ -44,6 +44,7 @@ The first step is to clone the project repository to a local directory on your c
 git clone https://github.com/philipstubbs13/pollywog-challenge.git
 cd ./pollywog-challenge
 ```
+If you don't have git, you will need git, which you can download [here](https://git-scm.com/downloads).
 
 ###  <a name="install-node"></a> 2. Install Node.js
 
