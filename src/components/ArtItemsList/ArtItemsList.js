@@ -88,8 +88,13 @@ class ArtItemsList extends Component {
 ArtItemsList.propTypes = {
   classes: PropTypes.object.isRequired,
   artItems: PropTypes.array.isRequired,
-  numberArt: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  numberArt: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool,
+};
+
+// Document/define component's default properties
+ArtItemsList.defaultProps = {
+  isLoading: false,
 };
 
 // export the component from this file.
