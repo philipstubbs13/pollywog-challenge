@@ -90,7 +90,7 @@ class ArtItemsList extends Component {
 ArtItemsList.propTypes = {
   classes: PropTypes.object.isRequired,
   artItems: PropTypes.array.isRequired,
-  numberArt: PropTypes.string.isRequired,
+  numberArt: PropTypes.number.isRequired,
   isLoading: PropTypes.bool,
 };
 

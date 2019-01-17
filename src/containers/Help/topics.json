@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "title": "How do I find art that includes audio?",
+    "content": "If at least one of the pieces of art listed on the Explore Art page has audio, then you will see the HAS AUDIO button. Click HAS AUDIO to see all art that has audio available."
+  },
+  {
+    "id": "2",
+    "title": "Where does the art come from?",
+    "content": "The art comes from the Minneapolis Institute of Art's collection."
+  },
+  {
+    "id": "3",
+    "title": "How do I favorite an artwork I like?",
+    "content": "If you like a piece of art and want to easily access it later, click the image on the Explore Art page to view the details about that art. Then, click the star icon to mark the art as a favorite."
+  },
+  {
+    "id": "4",
+    "title": "How can I search for more art than what is currently available in the app?",
+    "content": "To discover more art than what is currently available in the app, click EXPLORE MORE on the Explore Art page make to get new, random art to look at."
+  }
+]

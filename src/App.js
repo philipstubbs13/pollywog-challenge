@@ -24,6 +24,7 @@ import Landing from './containers/Landing';
 import Artwork from './containers/Artwork';
 import Favorites from './containers/Favorites';
 import About from './containers/About';
+import Help from './containers/Help';
 import NoMatch from './containers/NoMatch'; // app 404 page - if no routes match.
 // Import the NavBar component
 import NavBar from './components/NavBar';
@@ -37,7 +38,7 @@ const uuidv1 = require('uuid/v1');
 // CSS in JS
 const styles = () => ({
   appPages: {
-    margin: '4rem',
+    margin: '2.5rem',
     minHeight: 'calc(100vh - 300px)',
   },
 });
@@ -194,6 +195,7 @@ class App extends Component {
                     )}
                   />
                   <Route exact path="/about" component={About} />
+                  <Route exact path="/help" component={Help} />
                   <Route component={NoMatch} />
                 </Switch>
               </div>
