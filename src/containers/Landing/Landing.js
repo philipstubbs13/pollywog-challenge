@@ -135,14 +135,14 @@ class Landing extends Component {
               Has Audio
             </Button>
           )}
+          {hasAudio && (
+            <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={() => this.clearAudioFilter()}>
+              Clear audio filter
+            </Button>
+          )}
         </div>
         {hasAudio ? (
           <React.Fragment>
-            <div className={classes.buttons}>
-              <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={() => this.clearAudioFilter()}>
-                Clear audio filter
-              </Button>
-            </div>
             <Suspense fallback={<Loading />}>
               <ArtItemsList
                 artItems={hasAudioItems}

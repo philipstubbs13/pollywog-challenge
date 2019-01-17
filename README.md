@@ -28,9 +28,15 @@ The app is currently live at the following URL:
 
 <img src="./readme_images/details.png">
 
-### Favorites pge
+### Favorites page
 
 <img src="./readme_images/favorites.png">
+
+### Filter by Audio
+
+<img src="./readme_images/audio1.png">
+
+<img src="./readme_images/audio2.png">
 
 ### 404 page
 
@@ -40,25 +46,37 @@ The app is currently live at the following URL:
 
 ### <a name="how-the-app-is-built"></a> How the app is built
 
-On the front end side, this project is built using React, which is an open-source JavaScript library developed at Facebook specifically for the task of developing user interfaces. React relies on a component-based architecture where elements of the user interface are broken into small chunks of code called components. To design and build the user interface, I used the Material UI user interface React component library.
+This project is built using React, which is an open source JavaScript library developed at Facebook specifically for the task of developing user interfaces. React relies on a component-based architecture where elements of the user interface are broken into small chunks of code called components. To design and build the user interface, I used the Material UI library, which is a 3rd party UI library of React component's that mimic Google's Material Design specification. I used Material UI for styling, theming, and incorporating cool components. As to the grid/layout system I used, I went with Flexbox, making it easy to design for mobile, tablet, and desktop screens.
 
-On the backend, this project uses Firebase for real-time data storage in a database. It also uses email-based and Google authentication for signing up and logging in users (which is also  a part of Firebase). This project also uses node, express, and the Twilio API to create a voice messaging system. The voice messaging system allows homeless people who don't have smart phones to still be able to check into a shelter by calling a specific phone number to reserve a bed at a nearby shelter. Finally, Firebase Hosting is used to deploy and host the app.
+This project also uses art data from the Minneapolis Institute of Art's ElasticSearch API. To be able to store and handle the art data that comes back from the API, I decided to to use Jake Archibald's [IndexedDB Promised](https://github.com/jakearchibald/idb) library, which is similar to the IndexedDB API, but uses promises instead of events. IndexedDB is basically a noSQL storage option that allows the data that comes back from the API response to be stored in the user's browser. Most browsers do support this option, making data storage and retrieval very efficient. For a list of browsers that support IndexedDB, go [here](https://caniuse.com/#search=indexeddb). 
+
+IndexedDB, similar to local storage, allows the app to cache the API response data in the user's browser and eliminate/minimize the need to make unneccessary GET requests to the API. In fact, the only time a GET request to the API is actually made is if the user is a new user and has no artwork currently stored in their IndexedDB store or if the user clicks the <b>Explore More</b> button on the landing page to intentionally get more artwork. The Fetch API is used to make the request to the ElasticSearch API.
 
 ### <a name="workflow"></a> App workflow
 
 #### Explore Art
 
+When a user visits the app for the first time, they will be taken to the Explore Art landing page. For first time users, a GET request is made to the ElasticSearch API using Fetch to get 10 random pieces of art and display them on the page. After the initial GET request to the API is made, the artwork retrieved from the API is then stored in the user's browser in an IndexedDB store. So, the next time the user visits the app, the app will retrieve the artwork from the IndexedDB store rather than making another request.
+
+On the landing page, I decided to only show 10 pieces of art to the user initially. However, I decided to store more than 10 in the user's IndexedDB store. At the bottom of the landing page, I included a <b>Load More</b> button. Clicking this button will retrieve 4 more artworks from IndexedDB and display them on the landing page.
+
+If the user browses through all of the artwork that is stored in their IndexedDB store, they have the option to get more random artwork from the ElasticSearch API by clicking the <b>Explore More</b> button. Clicking the <b>Explore More</b> button will clear the current artwork stored in the user's IndexedDB store (if the artwork has not been favorited by the user), make another GET request to the API, retrieve the new artwork from the API, and add to IndexedDB to make it available to the user.
 
 #### View Art Details
 
+From the Explore Art landing page, you can click on the art image to learn more about that particular piece of art. Clicking on a piece of art will take you to a separate art details page that includes an image of the artwork and information about that artwork, such as title, artist, artist life, medium, country, nationality, and more. The information about the artwork on the art details page also still comes from the IndexedDB store.
 
 #### Listen to Art Audio (if available)
 
+Some artworks do have audio that you can listen to. If one or more of the artworks stored in the IndexedDB store has an audio file, the <b>Has Audio</b> button will appear on the Explore Art landing page. Clicking this button will filter the art to only list the art that has audio. You can play the audio tour for a particular artwork from the art details page. To be able to play the audio within the app, I used [react-sound](https://github.com/leoasis/react-sound).
 
 #### Favorite art
 
+From the art details page, you can also favorite an artwork that you really like so that you can view and access it quickly later on. Clicking the star icon on the art details page saves the artwork to a separate store from the random artwork store in IndexedDB so that the favorited art doesn't get deleted when another GET request to the API is made.
 
 #### View favorites at later time
+
+To view your favorites, click the star icon in the top navigation bar at the top right corner of the screen. The favorites page has a similar look and feel to the Explore Art landing page. You can click on a particular artwork to view the art details again.
 
 ### <a name="project-structure"></a> Structure of the project
 
