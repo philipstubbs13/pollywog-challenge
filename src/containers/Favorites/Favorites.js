@@ -22,6 +22,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
+    marginBottom: 200,
   },
   noFavoritesContent: {
     color: theme.palette.common.black,

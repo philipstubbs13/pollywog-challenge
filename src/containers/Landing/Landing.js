@@ -48,6 +48,9 @@ const styles = theme => ({
       justifyContent: 'center',
     },
   },
+  landingContainer: {
+    marginBottom: 150,
+  },
 });
 
 // Class based React component for Landing page/container.
@@ -89,7 +92,7 @@ class Landing extends Component {
     this.setState({ numberArt: numberArt + 4 });
   }
 
-  // This function handles filtering the array of art items in the store to 
+  // This function handles filtering the array of art items in the store to
   // only include the artwork that has audio.
   filterAudio = () => {
     // ES6 destructuring.
@@ -122,7 +125,7 @@ class Landing extends Component {
     const totalValidItems = artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1');
     const hasAudioItemsCount = totalValidItems.filter(item => item._source.hasOwnProperty(['related:audio-stops']));
     return (
-      <div>
+      <div className={classes.landingContainer}>
         <Typography variant="h2" className={classes.landingTitle}>
           Explore Art
         </Typography>
