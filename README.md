@@ -10,20 +10,22 @@ Explore Art is a web app that allows you to search and find information about di
   * [How the app is built](#how-the-app-is-built)
   * [App workflow](#workflow)
   * [Structure of the project](#project-structure)
-* [Deploying the app](#deployment)
 * [Technologies used to create the app](#technologies-used)
 * [Direction for future development](#future)
+* [Deploying the app](#deployment)
 * [Issues](#Issues)
 
 ## <a name="live"></a>Live
 
-The app is currently live at the following URL:
+The app is currently live at the following URL: 
+
+<https://exploreartmn.firebaseapp.com/>
 
 ## <a name="getting-started"></a> Getting started
 
 The following section will take you through the steps of setting up this app and getting it running locally on your computer.
 
-If you don't want to set up this project locally and just want to see the deployed app, go to TBD.
+If you don't want to set up this project locally and just want to see the deployed app, go to <https://exploreartmn.firebaseapp.com/>.
 
 To set up this app locally on your computer, perform the following steps:
 
@@ -252,7 +254,6 @@ After you clone the repository from GitHub, you can navigate to the project root
   * <b>components</b>: The components folder is where the components that are reused across the app are located. Each file represents a separate component. For example, NavBar is the top navigation bar component that can be reused across the entire app for a consistent look and feel on each page. Each component also has their own, separate css.
   * <b>containers</b>: This folder holds all the pages of the app. For example, inside of the containers folder, there is a Landing folder. The Landing folder contains a top-level parent container/page for the Explore Art landing page called Landing.js.
   * <b>App.css</b> and <b>index.css</b>: The external css stylesheets for the app.
-  * <b>firebase-config.js</b>: contains the Firebase initialization code to connect the app to Firebase.
   * <b>logo.svg</b>: This is just the default React logo.
 * <b>.eslintrc.json</b>: List of rules and their definitions for ESLint. This project uses the Airbnb JavaScript style guide for maintaining code quality.
 * <b>.gitignore</b>: Anything listed inside this file (for example, node_modules) will not be tracked by GitHub when code is committed.
@@ -261,6 +262,27 @@ After you clone the repository from GitHub, you can navigate to the project root
 * <b>yarn.lock</b>: Dependency tree for the project. Lists all the dependencies and their versions.
 * <b>.firebaserc</b>: Hidden file that allows you to quickly switch between projects with 'firebase use'.
 * <b>firebase.json</b>: Firebase configuration file required to deploy the app to Firebase.
+
+## <a name="technologies-used"></a> Technologies used to create app
+
+* HTML5
+* CSS
+* Javascript (ES6)
+* [React](https://reactjs.org/)
+* [Material UI](https://material-ui.com/)
+* [IndexedDB Promised](https://github.com/jakearchibald/idb#readme) - Used for storing application state to eliminate unnecessary API requests.
+* [ESLint](https://eslint.org/)
+* [ElasticSearch API](https://github.com/artsmia/collection-elasticsearch) - Used to search and find art from the Minneapolis Institute of Art collection.
+* [Firebase for hosting](https://firebase.google.com/docs/hosting/)
+
+## <a name="future"></a> Direction for future development
+
+The following is a list of potential enhancements for future code development.
+
+* Upgrade application store from IndexedDB to Redux.
+* Add authentication workflow that allows users to sign up and login.
+* Add search feature that allows users to search/query artwork using the ElasticSearch API.
+* Add the ability to post a comment on a particular artwork and save that comment.
 
 ## <a name="deployment"></a> Deploying the app
 
@@ -296,32 +318,13 @@ This command creates a directory called <b>build</b> inside of the project root 
 7. Run the following command to deploy your changes:
 
 ```bash
+firebase init
 firebase deploy
 ```
 
-This command deploys the project to TBD on firebase.
+firebase init only needs to be ran first time only.
 
-## <a name="technologies-used"></a> Technologies used to create app
-
-* HTML5
-* CSS
-* Javascript (ES6)
-* [React](https://reactjs.org/)
-* [Material UI](https://material-ui.com/)
-* [IndexedDB Promised](https://github.com/jakearchibald/idb#readme) - Used for storing application state to eliminate unnecessary API requests.
-* [ESLint](https://eslint.org/)
-* [ElasticSearch API](https://github.com/artsmia/collection-elasticsearch) - Used to search and find art from the Minneapolis Institute of Art collection.
-* [Firebase for hosting](https://firebase.google.com/docs/hosting/)
-
-## <a name="future"></a> Direction for future development
-
-The following is a list of potential enhancements for future code development.
-
-* Upgrade application store from IndexedDB to Redux.
-* Add authentication workflow that allows users to sign up and login.
-* Add search feature that allows users to search/query artwork using the ElasticSearch API.
-* Add the ability to post a comment on a particular artwork and save that comment.
-* Convert code base to use React hooks.
+The firebase deploy command deploys the project to <https://exploreartmn.firebaseapp.com/> on firebase.
 
 ## <a name ="Issues"></a> Issues
 
