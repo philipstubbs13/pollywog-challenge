@@ -18,10 +18,17 @@ const styles = theme => ({
   artItem: {
     marginTop: 20,
     flex: 1,
+    marginLeft: 6,
+    marginRight: 6,
   },
   artTitle: {
     color: theme.palette.common.black,
     fontWeight: 'bold',
+  },
+  artContainer: {
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
   },
 });
 
@@ -43,8 +50,7 @@ class ArtItemsList extends Component {
     } = this.props;
     return (
       <div>
-        {/* <div className={classes.artContainer}> */}
-        <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
+        <Grid container direction="row" justify="flex-start" className={classes.artContainer} alignItems="center" spacing={24}>
           {isLoading ? (
             <Loading />
           ) : (

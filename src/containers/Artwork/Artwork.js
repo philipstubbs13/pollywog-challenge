@@ -34,6 +34,10 @@ const styles = theme => ({
   },
   artImage: {
     border: '1px solid var(--app-dark-color)',
+    marginTop: 20,
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+    },
   },
   root: {
     ...theme.mixins.gutters(),
@@ -44,7 +48,14 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
+    marginTop: 20,
     width: '50%',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '50%',
+    },
     border: '1px solid var(--app-light-color)',
   },
   artDetailsContainer: {
@@ -66,11 +77,19 @@ const styles = theme => ({
     flexDirection: 'column',
     width: '40%',
     fontWeight: 'bold',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'row',
+      width: '100%',
+    },
   },
   itemSubtitle: {
     display: 'flex',
     flexDirection: 'column',
     width: '60%',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'row',
+      width: '100%',
+    },
   },
   buttons: {
     display: 'flex',
@@ -112,7 +131,6 @@ class Artwork extends Component {
   state = {
     play: false,
     open: false,
-    favoriteItems: [],
     findSavedItem: [],
   }
 
@@ -120,7 +138,6 @@ class Artwork extends Component {
     // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
-    const { favoriteItems } = this.state;
     // When App commpent mounts
     // Open the artFavoritesDB in IndexedDB.
     const { artFavoritesDB } = this.props;
@@ -130,9 +147,6 @@ class Artwork extends Component {
       // If the favorite art is available in the store,
       // Grab the art and add to App component state.
       if (obj.length) {
-        this.setState({
-          favoriteItems: obj,
-        });
         // This allows us to determine if the artwork currently showing on the details page
         // is already in the user's favorites or not.
         // If the artwork is already in user's favorites, we won't show the star icon.
@@ -211,7 +225,6 @@ class Artwork extends Component {
     // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
-    console.log(findSavedItem);
 
     return (
       <React.Fragment>

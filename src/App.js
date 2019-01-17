@@ -23,6 +23,7 @@ import './App.css';
 import Landing from './containers/Landing';
 import Artwork from './containers/Artwork';
 import Favorites from './containers/Favorites';
+import NoMatch from './containers/NoMatch'; // app 404 page - if no routes match.
 // Import the NavBar component
 import NavBar from './components/NavBar';
 // Import the Footer component
@@ -191,6 +192,7 @@ class App extends Component {
                       />
                     )}
                   />
+                  <Route component={NoMatch} />
                 </Switch>
               </div>
               <Footer />

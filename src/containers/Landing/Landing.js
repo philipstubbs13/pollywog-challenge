@@ -17,7 +17,11 @@ const ArtItemsList = React.lazy(() => import('../../components/ArtItemsList'));
 const styles = theme => ({
   landingTitle: {
     fontWeight: 'bold',
+    marginLeft: 6,
     color: theme.palette.common.black,
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
   },
   exploreMoreBtn: {
     marginTop: 15,
@@ -25,12 +29,24 @@ const styles = theme => ({
   loadMoreArt: {
     marginTop: 30,
     display: 'flex',
+    marginLeft: 6,
     alignItems: 'center',
     justifyContent: 'flex-start',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center',
+    },
   },
   hasAudioBtn: {
     marginLeft: 15,
     marginTop: 15,
+  },
+  buttons: {
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: 6,
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center',
+    },
   },
 });
 
@@ -110,19 +126,23 @@ class Landing extends Component {
         {/* When user clicks the Explore more button on the Landing page. */}
         {/* Fetch 10 different random artworks from the API. */}
         {/* Then update/add to indexed db. */}
-        <Button variant="contained" className={classes.exploreMoreBtn} color="primary" size="large" onClick={() => this.clearArtDb()}>
-          Explore more
-        </Button>
-        {hasAudioItemsCount.length > 0 && hasAudio === false && (
-          <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={() => this.filterAudio()}>
-            Has Audio
+        <div className={classes.buttons}>
+          <Button variant="contained" className={classes.exploreMoreBtn} color="primary" size="large" onClick={() => this.clearArtDb()}>
+            Explore more
           </Button>
-        )}
+          {hasAudioItemsCount.length > 0 && hasAudio === false && (
+            <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={() => this.filterAudio()}>
+              Has Audio
+            </Button>
+          )}
+        </div>
         {hasAudio ? (
           <React.Fragment>
-            <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={() => this.clearAudioFilter()}>
-              Clear audio filter
-            </Button>
+            <div className={classes.buttons}>
+              <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={() => this.clearAudioFilter()}>
+                Clear audio filter
+              </Button>
+            </div>
             <Suspense fallback={<Loading />}>
               <ArtItemsList
                 artItems={hasAudioItems}
