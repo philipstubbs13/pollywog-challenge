@@ -105,27 +105,66 @@ class Artwork extends Component {
     this.goBack = this.goBack.bind(this);
   }
 
+  // Initial state.
+  // Play is false so if there's audio it doesn't play automatically.
+  // open is used to open the snackbar message when user saves to favorites.
+  // favoriteItems is an array of all the items that the user favorited so far.
   state = {
     play: false,
     open: false,
+    favoriteItems: [],
+    findSavedItem: [],
   }
 
+  componentDidMount() {
+    // Grab the id of the specific artwork from props/url
+    const { match } = this.props;
+    const { id } = match.params;
+    const { favoriteItems } = this.state;
+    // When App commpent mounts
+    // Open the artFavoritesDB in IndexedDB.
+    const { artFavoritesDB } = this.props;
+    artFavoritesDB().then(db => db.transaction('favorite_art')
+      // get favorited art from the IndexedDB store.
+      .objectStore('favorite_art').getAll()).then((obj) => {
+      // If the favorite art is available in the store,
+      // Grab the art and add to App component state.
+      if (obj.length) {
+        this.setState({
+          favoriteItems: obj,
+        });
+        // This allows us to determine if the artwork currently showing on the details page
+        // is already in the user's favorites or not.
+        // If the artwork is already in user's favorites, we won't show the star icon.
+        const findSavedItem = obj.filter(item => item._source.id === id);
+        this.setState({
+          findSavedItem,
+        });
+      }
+    });
+  }
+
+  // This function handles saving the artwork displayed on the page
+  // to the user's favorites in IndexedDB.
   handleSaveToFavorites = () => {
+    // ES6 destructuring of props.
     const { artFavoritesDB } = this.props;
     // Grab the list of artItems from component state.
     const { artItems } = this.props;
     // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
+    // Filter out the artworks in the array to find the specific artwork user wants to save.
     const artwork = artItems.filter(item => item._source.id === id);
     // Open the artDB in IndexedDB.
     artFavoritesDB().then(db => db.transaction('favorite_art', 'readwrite')
-      // get user info from the IndexedDB store.
+      // get art info from the IndexedDB store.
       .objectStore('favorite_art').put({
         _source: artwork[0]._source,
         _id: artwork[0]._id,
       })
       .then(() => {
+        // Show success message.
         this.setState({ open: true });
       }));
   }
@@ -137,6 +176,8 @@ class Artwork extends Component {
     this.setState({ play: !play });
   };
 
+  // This takes care of closing the snackbar message component.
+  // that appears when the user successfully saves an artwork to their favorites.
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -147,6 +188,9 @@ class Artwork extends Component {
     });
   };
 
+  // This allows the user to go back from the art details page to either
+  // the landing page or to the favorites page, depending on what
+  // page they started at.
   goBack() {
     const { history } = this.props;
     history.goBack();
@@ -161,13 +205,13 @@ class Artwork extends Component {
   render() {
     // ES6 destructuring
     const { classes, location } = this.props;
-    const { play, open } = this.state;
+    const { play, open, findSavedItem } = this.state;
     const { state } = location;
     const { artItems } = state;
     // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
-    const { path } = match;
+    console.log(findSavedItem);
 
     return (
       <React.Fragment>
@@ -180,7 +224,7 @@ class Artwork extends Component {
                 src={`https://1.api.artsmia.org/${id}.jpg`}
                 alt={item._source.title}
                 className={classes.artImage}
-                onError={this.addDefaultSrc}              
+                onError={this.addDefaultSrc}
               />
               <React.Fragment>
                 {/* If an artwork has a related audio, render a play/pause button. */}
@@ -220,7 +264,11 @@ class Artwork extends Component {
                   <Button variant="outlined" className={classes.backBtn} color="secondary" onClick={this.goBack}>
                     <i className="fas fa-chevron-left" />{' '} back
                   </Button>
-                  { path === '/artwork/:id' && (
+                  {/* Here, if the artwork that is currently showing on the details page isn't
+                  currently in the user's favorites, we will show the star icon.
+                  Else, if the artwork is already favorited, we won't show the star icon
+                  so that the user can't save the artwork twice. */}
+                  {findSavedItem.length === 0 && (
                     <React.Fragment>
                       <Tooltip title="Add to favorites" placement="bottom">
                         <IconButton
