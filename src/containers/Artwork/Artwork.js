@@ -27,6 +27,7 @@ const styles = theme => ({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-around',
+    marginBottom: 200,
   },
   artItem: {
     marginTop: 20,
