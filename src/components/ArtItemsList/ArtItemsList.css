@@ -4,9 +4,9 @@
 
 .art-title {
   position: absolute;
-	top: 150px;
-	left: 0;
-	width: 80%;
+	top: 80px;
+	left: 75px;
+	width: 50%;
 	padding: 0 0px;
 	text-align: center;
 	color: var(--app-dark-color);
