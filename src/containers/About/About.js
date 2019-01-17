@@ -14,7 +14,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 50,
+    marginBottom: 200,
   },
   aboutItem: {
     marginTop: 10,

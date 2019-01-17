@@ -24,6 +24,9 @@ const styles = theme => ({
     flexDirection: 'column',
     marginBottom: 200,
   },
+  favoritesContainer: {
+    marginBottom: 200,
+  },
   noFavoritesContent: {
     color: theme.palette.common.black,
   },
@@ -63,7 +66,7 @@ class Favorites extends Component {
         show some fallback content while we’re waiting for it to load.
         This is done using the Suspense component */}
         {favoriteItems.length ? (
-          <React.Fragment>
+          <div className={classes.favoritesContainer}>
             <Typography variant="h2" className={classes.favoritesTitle}>
               My favorites
             </Typography>
@@ -74,7 +77,7 @@ class Favorites extends Component {
                 isLoading={isLoading}
               />
             </Suspense>
-          </React.Fragment>
+          </div>
         ) : (
           // If there are no favorites yet, display some default/placeholder text.
           <div className={classes.noFavorites}>

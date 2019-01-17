@@ -18,6 +18,7 @@ const styles = theme => ({
   helpContainer: {
     display: 'flex',
     alignItems: 'center',
+    marginBottom: 200,
   },
   helpItem: {
     marginTop: 10,
