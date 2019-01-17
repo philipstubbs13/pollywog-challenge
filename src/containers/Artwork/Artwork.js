@@ -152,6 +152,12 @@ class Artwork extends Component {
     history.goBack();
   }
 
+  // If an artwork does not have an image available,
+  // use the default/placeholder image instead.
+  addDefaultSrc(ev) {
+    ev.target.src = 'https://1.api.artsmia.org/15790.jpg';
+  }
+
   render() {
     // ES6 destructuring
     const { classes, location } = this.props;
@@ -174,6 +180,7 @@ class Artwork extends Component {
                 src={`https://1.api.artsmia.org/${id}.jpg`}
                 alt={item._source.title}
                 className={classes.artImage}
+                onError={this.addDefaultSrc}              
               />
               <React.Fragment>
                 {/* If an artwork has a related audio, render a play/pause button. */}
@@ -182,7 +189,7 @@ class Artwork extends Component {
                     {play ? (
                       <React.Fragment>
                         <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={() => this.togglePlayAudio()}>
-                          <i classN="fas fa-pause" /> Pause audio tour
+                          <i classN="fas fa-pause" /> Stop audio tour
                         </Button>
                         <Sound
                           url={item._source['related:audio-stops'][0].link}

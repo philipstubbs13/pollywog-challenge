@@ -28,6 +28,10 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
+  hasAudioBtn: {
+    marginLeft: 15,
+    marginTop: 15,
+  },
 });
 
 // Class based React component for Landing page/container.
@@ -36,6 +40,8 @@ class Landing extends Component {
   // numberArt is the number of artworks to display on the page.
   state = {
     numberArt: 10,
+    hasAudioItems: [],
+    hasAudio: false,
   }
 
   // Ths function handles clearing out the all the artwork currently stored
@@ -66,16 +72,33 @@ class Landing extends Component {
     this.setState({ numberArt: numberArt + 4 });
   }
 
+  filterAudio = () => {
+    const { artItems } = this.props;
+    const totalValidItems = artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1');
+    const hasAudioItems = totalValidItems.filter(item => item._source.hasOwnProperty(['related:audio-stops']));
+    this.setState({
+      hasAudioItems,
+      hasAudio: true,
+    });
+  }
+
+  clearAudioFilter = () => {
+    this.setState({
+      hasAudio: false,
+    });
+  }
+
   render() {
     // ES6 destructuring
     const {
       classes,
       artItems,
     } = this.props;
-    const { numberArt } = this.state;
+    const { numberArt, hasAudioItems, hasAudio } = this.state;
     // totalValidItems includes only the artworks in IndexedDB that have a valid image
     // and are publicly accessible.
     const totalValidItems = artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1');
+    const hasAudioItemsCount = totalValidItems.filter(item => item._source.hasOwnProperty(['related:audio-stops']));
     return (
       <div>
         <Typography variant="h2" className={classes.landingTitle}>
@@ -90,19 +113,39 @@ class Landing extends Component {
         <Button variant="contained" className={classes.exploreMoreBtn} color="primary" size="large" onClick={() => this.clearArtDb()}>
           Explore more
         </Button>
-        <Suspense fallback={<Loading />}>
-          <ArtItemsList
-            artItems={artItems}
-            clearArtDb={this.clearArtDb}
-            numberArt={numberArt}
-          />
-        </Suspense>
+        {hasAudioItemsCount.length > 0 && hasAudio === false && (
+          <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={() => this.filterAudio()}>
+            Has Audio
+          </Button>
+        )}
+        {hasAudio ? (
+          <React.Fragment>
+            <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={() => this.clearAudioFilter()}>
+              Clear audio filter
+            </Button>
+            <Suspense fallback={<Loading />}>
+              <ArtItemsList
+                artItems={hasAudioItems}
+                clearArtDb={this.clearArtDb}
+                numberArt={numberArt}
+              />
+            </Suspense>
+          </React.Fragment>
+        ) : (
+          <Suspense fallback={<Loading />}>
+            <ArtItemsList
+              artItems={artItems}
+              clearArtDb={this.clearArtDb}
+              numberArt={numberArt}
+            />
+          </Suspense>
+        )}
         {/* The Load more button at the bottom of the page gives the user */}
         {/* option to load more. */}
         {/* If the total number of valid artworks in IndexedDB is greater than
         the number of artworks currently displayed on the screen,
         then show the load more button. */}
-        {totalValidItems.length > numberArt && (
+        {totalValidItems.length > numberArt && hasAudio === false && (
           <div className={classes.loadMoreArt}>
             <Button variant="contained" color="primary" size="large" onClick={() => this.toggleLoadMore()}>
               Load more

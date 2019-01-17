@@ -85,7 +85,7 @@ class App extends Component {
           // This function will get ten random artworks from the collection
           // and information about each artwork.
           // url endpoint for getting random art.
-          const url = 'https://search.artsmia.org/random/art?size=70';
+          const url = 'https://search.artsmia.org/random/art?size=90';
           // Make GET request using fetch API.
           // eslint-disable-next-line no-undef
           fetch(url, {
