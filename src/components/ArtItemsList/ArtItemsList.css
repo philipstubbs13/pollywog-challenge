@@ -1,0 +1,40 @@
+.image {
+	position: relative;
+}
+
+.art-title {
+  position: absolute;
+	top: 80px;
+	left: 75px;
+	width: 50%;
+	padding: 0 0px;
+	text-align: center;
+	color: var(--app-dark-color);
+	visibility: hidden;
+	opacity: 1;
+	transition: opacity 0.2s, visibility 0.2s;
+  font-weight: bold;
+}
+
+.artImage {
+  border: 1px solid var(--app-dark-color);
+  width: 300px;
+  height: 300px;
+  position: relative;
+  display: inline-block;
+}
+
+.artImage:hover {
+	opacity: 0.6;
+	transition: all 0.5s ease-out;
+}
+
+.image:hover .art-title {
+	visibility: visible;
+	transition: all 0.5s ease-out;
+}
+
+.fa-volume-up {
+  margin-right: 10px;
+}
+
