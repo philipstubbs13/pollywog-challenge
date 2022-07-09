@@ -1,10 +1,6 @@
-// Global import of React.
 import React, { Component } from 'react';
-// import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
-// import react-sound package to add sound for artwork that have audio avaiable.
 import Sound from 'react-sound';
-// import styling and components from material-ui library
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -14,12 +10,9 @@ import List from '@material-ui/core/List';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
-// import AppMessage component
 import AppMessage from '../../components/AppMessage';
-// import external css file for this component.
 import './Artwork.css';
 
-// CSS in JS
 const styles = theme => ({
   artworkContainer: {
     display: 'flex',
@@ -118,40 +111,25 @@ const styles = theme => ({
   },
 });
 
-// Class based React component for the Artwork Details page/container
 class Artwork extends Component {
   constructor(props) {
     super(props);
     this.goBack = this.goBack.bind(this);
   }
 
-  // Initial state.
-  // Play is false so if there's audio it doesn't play automatically.
-  // open is used to open the snackbar message when user saves art to favorites.
-  // findSavedItem is an array that will be empty if the particular artwork
-  // is not saved to user's favorites.
   state = {
     play: false,
     open: false,
     findSavedItem: [],
   }
 
-  // When the component mounts to the page.
   componentDidMount() {
-    // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
-    // Open the artFavoritesDB in IndexedDB.
     const { artFavoritesDB } = this.props;
     artFavoritesDB().then(db => db.transaction('favorite_art')
-      // get favorited art from the IndexedDB store.
       .objectStore('favorite_art').getAll()).then((obj) => {
-      // If the favorite art is available in the store,
-      // Grab the art and add to App component state.
       if (obj.length) {
-        // This allows us to determine if the artwork currently showing on the details page
-        // is already in the user's favorites or not.
-        // If the artwork is already in user's favorites, we won't show the star icon.
         const findSavedItem = obj.filter(item => item._source.id === id);
         this.setState({
           findSavedItem,
@@ -160,40 +138,27 @@ class Artwork extends Component {
     });
   }
 
-  // This function handles saving the artwork displayed on the page
-  // to the user's favorites in IndexedDB.
   handleSaveToFavorites = () => {
-    // ES6 destructuring of props.
     const { artFavoritesDB } = this.props;
-    // Grab the list of artItems from component state.
     const { artItems } = this.props;
-    // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
-    // Filter out the artworks in the array to find the specific artwork user wants to save.
     const artwork = artItems.filter(item => item._source.id === id);
-    // Open the artDB in IndexedDB.
     artFavoritesDB().then(db => db.transaction('favorite_art', 'readwrite')
-      // get art info from the IndexedDB store.
       .objectStore('favorite_art').put({
         _source: artwork[0]._source,
         _id: artwork[0]._id,
       })
       .then(() => {
-        // Show success message.
         this.setState({ open: true });
       }));
   }
 
-  // This function handles playing and pausing the audio for an artwork.
   togglePlayAudio = () => {
-    // ES6 destructuring.
     const { play } = this.state;
     this.setState({ play: !play });
   };
 
-  // This takes care of closing the snackbar message component.
-  // that appears when the user successfully saves an artwork to their favorites.
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -204,35 +169,25 @@ class Artwork extends Component {
     });
   };
 
-  // This allows the user to go back from the art details page to either
-  // the landing page or to the favorites page, depending on what
-  // page they started at.
   goBack() {
     const { history } = this.props;
     history.goBack();
   }
 
-  // If an artwork does not have an image available,
-  // use the default/placeholder image instead.
-  // This solves the issue of broken image links.
   addDefaultSrc(ev) {
     ev.target.src = 'https://1.api.artsmia.org/15790.jpg';
   }
 
   render() {
-    // ES6 destructuring
     const { classes, location } = this.props;
     const { play, open, findSavedItem } = this.state;
     const { state } = location;
     const { artItems } = state;
-    // Grab the id of the specific artwork from props/url
     const { match } = this.props;
     const { id } = match.params;
 
     return (
       <React.Fragment>
-        {/* Here, we are filtering the artItems array */}
-        {/* To find a particular artwork by the id passed as a param in the url. */}
         {artItems.filter(item => item._source.id === id).map(item => (
           <div className={classes.artworkContainer} key={item._source.id}>
             <div className={classes.art}>
@@ -243,7 +198,6 @@ class Artwork extends Component {
                 onError={this.addDefaultSrc}
               />
               <React.Fragment>
-                {/* If an artwork has a related audio, render a play/pause button. */}
                 {item._source.hasOwnProperty(['related:audio-stops']) && (
                   <React.Fragment>
                     {play ? (
@@ -254,7 +208,7 @@ class Artwork extends Component {
                         <Sound
                           url={item._source['related:audio-stops'][0].link}
                           playStatus={Sound.status.PLAYING}
-                          playFromPosition={300 /* in milliseconds */}
+                          playFromPosition={300}
                           onLoading={this.handleSongLoading}
                           onPlaying={this.handleSongPlaying}
                           onFinishedPlaying={this.handleSongFinishedPlaying}
@@ -280,10 +234,6 @@ class Artwork extends Component {
                   <Button variant="outlined" className={classes.backBtn} color="secondary" onClick={this.goBack}>
                     <i className="fas fa-chevron-left" />{' '} back
                   </Button>
-                  {/* Here, if the artwork that is currently showing on the details page isn't
-                  currently in the user's favorites, we will show the star icon.
-                  Else, if the artwork is already favorited, we won't show the star icon
-                  so that the user can't save the artwork twice. */}
                   {findSavedItem.length === 0 && (
                     <React.Fragment>
                       <Tooltip title="Add to favorites" placement="bottom">
@@ -298,8 +248,6 @@ class Artwork extends Component {
                     </React.Fragment>
                   )}
                 </div>
-                {/* The following information is all information we
-                got from the ElasticSearch API and saved to the IndexedDB store. */}
                 <div className={classes.artTitle}>
                   <Typography variant="h5" component="h3">
                     {item._source.title}
@@ -447,7 +395,6 @@ class Artwork extends Component {
                     </Typography>
                   </div>
                 </div>
-                {/* If an artwork has related exhibitions, list those at the end. */}
                 {item._source.hasOwnProperty(['related:exhibitions']) && (
                   <React.Fragment>
                     {item._source['related:exhibitions'].length > 0 && (
@@ -478,7 +425,6 @@ class Artwork extends Component {
   }
 }
 
-// Document/check prop types
 Artwork.propTypes = {
   classes: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -488,5 +434,4 @@ Artwork.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
-// export the component from this file.
 export default withStyles(styles)(Artwork);

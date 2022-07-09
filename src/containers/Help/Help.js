@@ -1,8 +1,5 @@
-// Global import of React so that we can use it.
 import React from 'react';
-// import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
-// import styling and components from material ui libary.
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -10,10 +7,8 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import help json file
 import topics from './topics.json';
 
-// CSS in JS
 const styles = theme => ({
   helpContainer: {
     display: 'flex',
@@ -55,10 +50,9 @@ const styles = theme => ({
   },
 });
 
-// Functional React based component for the Help page.
 function Help(props) {
-  // ES6 destructuring.
   const { classes } = props;
+
   return (
     <Grid container direction="column" justify="center" spacing={16} className={classes.helpContainer}>
       <Grid item xs={12} className={classes.helpItem}>
@@ -86,10 +80,8 @@ function Help(props) {
   );
 }
 
-// Document / validate component's prop types.
 Help.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-// export the component from this file.
 export default withStyles(styles)(Help);

@@ -1,10 +1,6 @@
-// Global import of React
 import React from 'react';
-// import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
-// import third party linking library
 import { Link } from 'react-router-dom';
-// import styling and components from material-ui library.
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,7 +11,6 @@ import InfoOutlined from '@material-ui/icons/InfoOutlined';
 import Tooltip from '@material-ui/core/Tooltip';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
 
-// CSS in JS
 const styles = theme => ({
   root: {
     width: '100%',
@@ -37,10 +32,8 @@ const styles = theme => ({
   },
 });
 
-// Class based React component for the top navigation bar.
 class NavBar extends React.Component {
   render() {
-    // ES6 destructuring.
     const { classes } = this.props;
 
     return (

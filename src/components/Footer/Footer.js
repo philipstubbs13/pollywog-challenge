@@ -1,14 +1,10 @@
-// global import of React so that we can use it.
 import React from 'react';
-// import PropTypes for documenting/checking component's property types.
 import PropTypes from 'prop-types';
-// import styling and components from material ui library.
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
-// CSS in JS
 const styles = () => ({
   card: {
     width: '100%',
@@ -26,9 +22,7 @@ const styles = () => ({
   },
 });
 
-// Functional based React component for Footer.
 function Footer(props) {
-  // ES6 destructuring.
   const { classes } = props;
 
   return (
@@ -48,10 +42,8 @@ function Footer(props) {
   );
 }
 
-// Document/validate props that are passed to the component.
 Footer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-// export the component from this file.
 export default withStyles(styles)(Footer);

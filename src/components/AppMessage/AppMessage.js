@@ -1,12 +1,7 @@
-// Global import of react so that we can use it.
 import React from 'react';
-// import PropTypes for documenting/checking the component's properties.
 import PropTypes from 'prop-types';
-// import third party linking library for linking/routing.
 import { Link } from 'react-router-dom';
-// import classnames package for conditionaly combining classnames
 import classNames from 'classnames';
-// import styling and components from the material ui library.
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
@@ -18,7 +13,6 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
 
-// Define different icons for each type of message.
 const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,
@@ -26,7 +20,6 @@ const variantIcon = {
   info: InfoIcon,
 };
 
-// CSS in JS
 const styles1 = theme => ({
   success: {
     backgroundColor: green[600],
@@ -53,9 +46,7 @@ const styles1 = theme => ({
   },
 });
 
-// Functional React based component for the content of the app message.
 function MySnackbarContent(props) {
-  // ES6 destructuring
   const {
     classes,
     className,
@@ -81,7 +72,7 @@ function MySnackbarContent(props) {
   );
 }
 
-// Document/check prop types.
+
 MySnackbarContent.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
@@ -89,26 +80,20 @@ MySnackbarContent.propTypes = {
   onClose: PropTypes.func.isRequired,
   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 };
-
-// Document/define default props for props that aren't required.
 MySnackbarContent.defaultProps = {
   className: 'string',
 };
 
-// export component.
 const MySnackbarContentWrapper = withStyles(styles1)(MySnackbarContent);
 
-// CSS in JS
 const styles2 = theme => ({
   margin: {
     margin: theme.spacing.unit,
   },
 });
 
-// Class based React component for displaying a message to the user within the app.
 class AppMessage extends React.Component {
   render() {
-    // ES6 destructuring.
     const {
       open,
       onClose,
@@ -152,7 +137,6 @@ class AppMessage extends React.Component {
   }
 }
 
-// Document/check prop types.
 AppMessage.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -161,12 +145,9 @@ AppMessage.propTypes = {
   link: PropTypes.string,
   action: PropTypes.string,
 };
-
-// Document/define default props for props that aren't required.
 AppMessage.defaultProps = {
   link: '',
   action: '',
 };
 
-// export the component from this file.
 export default withStyles(styles2)(AppMessage);

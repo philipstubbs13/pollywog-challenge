@@ -1,14 +1,10 @@
-// Global import of React so that we can use it.
 import React from 'react';
-// import PropTypes for defining/checking component props.
 import PropTypes from 'prop-types';
-// import styling and components from material ui libary.
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
-// CSS in JS
 const styles = theme => ({
   aboutContainer: {
     display: 'flex',
@@ -47,10 +43,9 @@ const styles = theme => ({
   },
 });
 
-// Functional React based component for the About page.
 function About(props) {
-  // ES6 destructuring.
   const { classes } = props;
+
   return (
     <Grid container direction="column" justify="center" spacing={16} className={classes.aboutContainer}>
       <Grid item xs={12} className={classes.aboutItem}>
@@ -75,10 +70,8 @@ function About(props) {
   );
 }
 
-// Document / validate component's prop types.
 About.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-// export the component from this file.
 export default withStyles(styles)(About);
