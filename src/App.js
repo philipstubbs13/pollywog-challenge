@@ -66,7 +66,7 @@ class App extends Component {
     // eslint-disable-next-line react/no-unused-state
     error: '',
     isLoading: true,
-  }
+  };
 
   // When the component mounts.
   componentDidMount() {
@@ -78,7 +78,7 @@ class App extends Component {
   // or from the API.
   handleGetRandomArtwork = () => {
     // Open the artDB in IndexedDB.
-    this.artDB().then(db => db.transaction('random_art')
+    this.artDB().then((db) => db.transaction('random_art')
       // get random art info from the IndexedDB store.
       .objectStore('random_art').getAll()).then((obj) => {
       // If there is no art currently in the store (new user)...
@@ -94,7 +94,7 @@ class App extends Component {
           fetch(url, {
             method: 'GET',
           })
-            .then(response => response.json()).then((data) => {
+            .then((response) => response.json()).then((data) => {
               // Create transaction to access IndexedDB.
               // Add artwork from API response to object store in IndexedDB.
               const tx = db.transaction('random_art', 'readwrite');
@@ -111,7 +111,7 @@ class App extends Component {
             })
             // If there is an error, catch the error and save to component state.
             // eslint-disable-next-line react/no-unused-state
-            .catch(error => this.setState({ error }));
+            .catch((error) => this.setState({ error }));
           // };
         });
       } else {
@@ -124,7 +124,7 @@ class App extends Component {
         });
       }
     });
-  }
+  };
 
   // Function to open art_store db in IndexedDB
   // and upgrade db if necessary.
@@ -134,7 +134,7 @@ class App extends Component {
     switch (upgradeDb.oldVersion) {
       case 0: upgradeDb.createObjectStore('random_art', { keyPath: 'id' });
     }
-  })
+  });
 
   // Function to open art_favorite_store db in IndexedDB
   // and upgrade db if necessary.
@@ -144,8 +144,7 @@ class App extends Component {
     switch (upgradeDb.oldVersion) {
       case 0: upgradeDb.createObjectStore('favorite_art', { keyPath: '_id' });
     }
-  })
-
+  });
 
   render() {
     // ES6 destructuring
@@ -154,7 +153,7 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <React.Fragment>
+          <div>
             <MuiThemeProvider theme={theme}>
               <NavBar />
               <div className={classes.appPages}>
@@ -162,7 +161,7 @@ class App extends Component {
                   <Route
                     exact
                     path="/"
-                    render={props => (
+                    render={(props) => (
                       <Landing
                         {...props}
                         handleGetRandomArtwork={this.handleGetRandomArtwork}
@@ -175,7 +174,7 @@ class App extends Component {
                   <Route
                     exact
                     path="/artwork/:id"
-                    render={props => (
+                    render={(props) => (
                       <Artwork
                         {...props}
                         artItems={artItems}
@@ -186,7 +185,7 @@ class App extends Component {
                   <Route
                     exact
                     path="/favorites"
-                    render={props => (
+                    render={(props) => (
                       <Favorites
                         {...props}
                         artFavoritesDB={this.artFavoritesDB}
@@ -201,7 +200,7 @@ class App extends Component {
               </div>
               <Footer />
             </MuiThemeProvider>
-          </React.Fragment>
+          </div>
         </Router>
       </div>
     );
