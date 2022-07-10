@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Loading from '../../components/Loading';
-const ArtItemsList = React.lazy(() => import('../../components/ArtItemsList'));
+import { UiLoading } from '../../components/ui-loading/UiLoading';
+import { UiArtItemsList } from '../../components/ui-art-items-list/UiArtItemsList'
 
 const styles = theme => ({
   landingTitle: {
@@ -115,8 +115,8 @@ class Landing extends Component {
         </div>
         {hasAudio ? (
           <React.Fragment>
-            <Suspense fallback={<Loading />}>
-              <ArtItemsList
+            <Suspense fallback={<UiLoading />}>
+              <UiArtItemsList
                 artItems={hasAudioItems}
                 clearArtDb={this.clearArtDb}
                 numberArt={numberArt}
@@ -124,8 +124,8 @@ class Landing extends Component {
             </Suspense>
           </React.Fragment>
         ) : (
-          <Suspense fallback={<Loading />}>
-            <ArtItemsList
+          <Suspense fallback={<UiLoading />}>
+            <UiArtItemsList
               artItems={artItems}
               clearArtDb={this.clearArtDb}
               numberArt={numberArt}

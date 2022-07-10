@@ -1,31 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { useNoMatchStyles } from './NoMatch.styles';
 
-const styles = theme => ({
-  noMatchContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  noMatchBtn: {
-    marginTop: 20,
-  },
-  noMatchText: {
-    color: theme.palette.common.black,
-  },
-  noMatchImage: {
-    width: '300px',
-    height: '300px',
-  },
-});
-
-function NoMatch(props) {
-  const { classes } = props;
+export const NoMatch = () => {
+  const classes = useNoMatchStyles()
 
   return (
     <div className={classes.noMatchContainer}>
@@ -42,9 +22,3 @@ function NoMatch(props) {
     </div>
   );
 }
-
-NoMatch.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(NoMatch);

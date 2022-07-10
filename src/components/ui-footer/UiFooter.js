@@ -1,29 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { useUiFooterStyles } from './UiFooter.styles';
 
-const styles = () => ({
-  card: {
-    width: '100%',
-    marginTop: 50,
-    height: '10rem',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-  footerContent: {
-    margin: 10,
-  },
-});
-
-function Footer(props) {
-  const { classes } = props;
+export const UiFooter = () => {
+  const classes = useUiFooterStyles();
 
   return (
     <Card className={classes.card}>
@@ -35,15 +17,9 @@ function Footer(props) {
           Phil Stubbs
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Copyright &copy; 2019
+          Copyright &copy; {new Date().getFullYear()}
         </Typography>
       </CardContent>
     </Card>
   );
-}
-
-Footer.propTypes = {
-  classes: PropTypes.object.isRequired,
 };
-
-export default withStyles(styles)(Footer);

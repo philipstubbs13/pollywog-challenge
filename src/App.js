@@ -10,12 +10,12 @@ import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/
 import './App.css';
 import Landing from './containers/Landing';
 import Artwork from './containers/Artwork';
-import Favorites from './containers/Favorites';
-import About from './containers/About';
-import Help from './containers/Help';
-import NoMatch from './containers/NoMatch';
-import NavBar from './components/NavBar';
-import Footer from './components/Footer';
+import { Favorites } from './containers/favorites/Favorites';
+import { About } from './containers/about/About';
+import { Help } from './containers/help/Help';
+import { NoMatch } from './containers/no-match/NoMatch';
+import { UiNavBar } from './components/ui-nav-bar/UiNavBar';
+import { UiFooter } from './components/ui-footer/UiFooter';
 
 const uuidv1 = require('uuid/v1');
 
@@ -111,7 +111,7 @@ class App extends Component {
         <Router>
           <div>
             <MuiThemeProvider theme={theme}>
-              <NavBar />
+              <UiNavBar />
               <div className={classes.appPages}>
                 <Switch>
                   <Route
@@ -154,7 +154,7 @@ class App extends Component {
                   <Route component={NoMatch} />
                 </Switch>
               </div>
-              <Footer />
+              <UiFooter />
             </MuiThemeProvider>
           </div>
         </Router>

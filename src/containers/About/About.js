@@ -1,50 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import { useAboutStyles } from './About.styles';
 
-const styles = theme => ({
-  aboutContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 200,
-  },
-  aboutItem: {
-    marginTop: 10,
-    width: '50%',
-    textAlign: 'center',
-    [theme.breakpoints.down('md')]: {
-      width: '70%',
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-    },
-  },
-  root: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    textAlign: 'center',
-  },
-  aboutText: {
-    marginTop: 25,
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 14,
-    },
-  },
-  aboutTitle: {
-    marginTop: 25,
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 20,
-    },
-  },
-});
-
-function About(props) {
-  const { classes } = props;
+export const About = () => {
+  const classes = useAboutStyles();
 
   return (
     <Grid container direction="column" justify="center" spacing={16} className={classes.aboutContainer}>
@@ -69,9 +30,3 @@ function About(props) {
     </Grid>
   );
 }
-
-About.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(About);
