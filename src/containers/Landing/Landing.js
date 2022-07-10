@@ -1,10 +1,9 @@
 import React, { useState, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import { UiLoading } from '../../components/ui-loading/UiLoading';
 import { UiArtItemsList } from '../../components/ui-art-items-list/UiArtItemsList'
 import { useLandingStyles } from './Landing.styles';
+import { Box, Typography, Button } from '@material-ui/core';
 
 export const Landing = (props) => {
   const classes = useLandingStyles();
@@ -41,36 +40,35 @@ export const Landing = (props) => {
   const hasAudioItemsCount = totalValidItems.filter(item => item._source.hasOwnProperty(['related:audio-stops']));
 
   return (
-    <div className={classes.landingContainer}>
+    <Box>
       <Typography variant="h2" className={classes.landingTitle}>
         Explore Art
       </Typography>
       <div className={classes.buttons}>
-        <Button variant="contained" className={classes.exploreMoreBtn} color="primary" size="large" onClick={clearArtDb}>
+        <Button variant="contained" color="primary" size="large" onClick={clearArtDb}>
           Explore more
         </Button>
         {hasAudioItemsCount.length > 0 && !hasAudio && (
-          <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={filterAudio}>
+          <Button variant="contained" color="primary" size="large" onClick={filterAudio}>
             Has Audio
           </Button>
         )}
         {hasAudio && (
-          <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={clearAudioFilter}>
+          <Button variant="contained" color="primary" size="large" onClick={clearAudioFilter}>
             Clear audio filter
           </Button>
         )}
       </div>
-      {hasAudio ? (
-        <>
-          <Suspense fallback={<UiLoading />}>
-            <UiArtItemsList
-              artItems={hasAudioItemsCount}
-              clearArtDb={clearArtDb}
-              numberArt={numberArt}
-            />
-          </Suspense>
-        </>
-      ) : (
+      {hasAudio && (
+        <Suspense fallback={<UiLoading />}>
+          <UiArtItemsList
+            artItems={hasAudioItemsCount}
+            clearArtDb={clearArtDb}
+            numberArt={numberArt}
+          />
+        </Suspense>
+      )}
+      {!hasAudio && (
         <Suspense fallback={<UiLoading />}>
           <UiArtItemsList
             artItems={props.artItems}
@@ -86,7 +84,7 @@ export const Landing = (props) => {
           </Button>
         </div>
       )}
-    </div>
+    </Box>
   );
 }
 

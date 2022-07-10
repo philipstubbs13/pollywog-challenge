@@ -1,24 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { useNoMatchStyles } from './NoMatch.styles';
+import { Typography, Box, Button } from '@material-ui/core';
 
 export const NoMatch = () => {
-  const classes = useNoMatchStyles()
-
   return (
-    <div className={classes.noMatchContainer}>
-      <Typography variant="h4" className={classes.noMatchText}>
+    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
+      <Typography variant="h4">
         Page not found
       </Typography>
-      <Typography variant="h6" className={classes.noMatchText}>
+      <Typography variant="h6">
         The page you are looking for might have been deleted, moved, or does not exist.
       </Typography>
-      <Button color="primary" className={classes.noMatchBtn} variant="contained" size="large" component={Link} to="/">
-        Back to home
-      </Button>
-      <img src="https://1.api.artsmia.org/15790.jpg" alt="Art not available" className={classes.noMatchImage} />
-    </div>
+      <Box marginY={2}>
+        <Button color="primary" variant="contained" size="large" component={Link} to="/">
+          Back to home
+        </Button>
+      </Box>
+      <img width={'300px'} height={'300px'} src="https://1.api.artsmia.org/15790.jpg" alt="Art not available" />
+    </Box>
   );
 }

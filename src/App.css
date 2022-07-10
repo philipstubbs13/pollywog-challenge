@@ -13,3 +13,8 @@ a {
 .App {
   background-color: var(--app-background-color);
 }
+
+html, body {
+	height: 100%;
+	margin: 0;
+  }

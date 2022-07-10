@@ -1,12 +1,10 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';;
 import { UiLoading } from '../../components/ui-loading/UiLoading';
 import { UiArtItemsList } from '../../components/ui-art-items-list/UiArtItemsList'
-import { useFavoritesStyles } from './Favorites.styles';
+import { Box, Typography } from '@material-ui/core';
 
 export const Favorites = (props) => {
-  const classes = useFavoritesStyles();
   const [favoriteItems, setFavoriteItems] = useState([])
 
   useEffect(() => {
@@ -19,10 +17,10 @@ export const Favorites = (props) => {
   }, []) 
 
   return (
-    <div>
+    <>
       {favoriteItems.length ? (
-        <div className={classes.favoritesContainer}>
-          <Typography variant="h2" className={classes.favoritesTitle}>
+        <div>
+          <Typography variant="h2">
             My favorites
           </Typography>
           <Suspense fallback={<UiLoading />}>
@@ -34,18 +32,18 @@ export const Favorites = (props) => {
           </Suspense>
         </div>
       ) : (
-        <div className={classes.noFavorites}>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} marginBotton={'200px'}>
           <i className="far fa-star fa-4x" />
-          <Typography variant="h3" className={classes.noFavoritesContent}>No favorites yet</Typography>
-          <Typography variant="h6" className={classes.noFavoritesContent}>
+          <Typography variant="h3">No favorites yet</Typography>
+          <Typography variant="h6">
             Use the  <i className="far fa-star" /> to mark any artwork as a favorite.
           </Typography>
-          <Typography variant="h6" className={classes.noFavoritesContent}>
+          <Typography variant="h6">
             Come back here to quickly access your favorites at anytime.
           </Typography>
-        </div>
+        </Box>
       )}
-    </div>
+    </>
   );
 }
 

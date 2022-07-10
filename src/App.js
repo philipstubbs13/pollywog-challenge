@@ -83,7 +83,6 @@ export const App = () => {
       <Router>
         <div>
           <MuiThemeProvider theme={theme}>
-            <Box display={'flex'} flexDirection={'column'}>
               <UiNavBar />
               <div className={classes.appPages}>
                 <Switch>
@@ -128,7 +127,6 @@ export const App = () => {
                 </Switch>
               </div>
               <UiFooter />
-            </Box>
           </MuiThemeProvider>
         </div>
       </Router>

@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import { UiLoading } from '../ui-loading/UiLoading';
 import './ArtItemsList.css';
 import { useUiArtItemsListStyles } from './UiArtItemsList.styles';
+import { Typography, Grid, Box } from '@material-ui/core';
 
 export const UiArtItemsList = (props) => {
   const classes = useUiArtItemsListStyles();
@@ -15,14 +14,14 @@ export const UiArtItemsList = (props) => {
   };
 
   return (
-    <div>
-      <Grid container direction="row" justify="flex-start" className={classes.artContainer} alignItems="center" spacing={24}>
+    <Box marginTop={4}>
+      <Grid container className={classes.artContainer} spacing={4}>
         {props.isLoading ? (
           <UiLoading />
         ) : (
           <>
             {props.artItems.filter((item) => item._source.image === 'valid' && item._source.public_access === '1').splice(0, props.numberArt).map((item) => (
-              <Grid item xs={12} sm={6} md={4} key={item._source.id} className={classes.artItem}>
+              <Grid item xs={12} sm={6} md={3} key={item._source.id} className={classes.artItem}>
                 <Link to={{ pathname: `/artwork/${item._source.id}`, state: { artItems: props.artItems } }}>
                   <div className="image">
                     <img onError={addDefaultSrc} src={`https://1.api.artsmia.org/${item._source.id}.jpg`} alt={item._source.title} className="artImage" />
@@ -39,7 +38,7 @@ export const UiArtItemsList = (props) => {
           </>
         )}
       </Grid>
-    </div>
+    </Box>
   );
 };
 
