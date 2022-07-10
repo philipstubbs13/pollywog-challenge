@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Switch,
 } from 'react-router-dom';
 import idb from 'idb';
-import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import  { MuiThemeProvider } from '@material-ui/core/styles';
 import './App.css';
 import { Landing }from './containers/landing/Landing';
 import { Artwork } from './containers/artwork/Artwork';
@@ -16,49 +15,27 @@ import { Help } from './containers/help/Help';
 import { NoMatch } from './containers/no-match/NoMatch';
 import { UiNavBar } from './components/ui-nav-bar/UiNavBar';
 import { UiFooter } from './components/ui-footer/UiFooter';
+import { useAppStyles } from './App.styles';
+import { Box } from '@material-ui/core';
+import { theme } from './theme/theme';
 
 const uuidv1 = require('uuid/v1');
 
-const styles = () => ({
-  appPages: {
-    margin: '2.4rem',
-    minHeight: 'calc(100vh - 350px)',
-  },
-});
+export const App = () => {
+  const classes = useAppStyles();
+  const [artItems, setArtItems] = useState([]);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-const theme = createMuiTheme({
-  palette: {
-    type: 'dark',
-    primary: {
-      main: '#263238',
-    },
-    secondary: {
-      main: '#fff',
-    },
-  },
-  typography: {
-    fontSize: 12,
-    useNextVariants: true,
-  },
-});
+  useEffect(() => {
+    handleGetRandomArtwork();
+  }, [])
 
-class App extends Component {
-  state = {
-    artItems: [],
-    // eslint-disable-next-line react/no-unused-state
-    error: '',
-    isLoading: true,
-  };
-
-  componentDidMount() {
-    this.handleGetRandomArtwork();
-  }
-
-  handleGetRandomArtwork = () => {
-    this.artDB().then((db) => db.transaction('random_art')
+  const handleGetRandomArtwork = () => {
+    artDB().then((db) => db.transaction('random_art')
       .objectStore('random_art').getAll()).then((obj) => {
       if (obj.length === 0) {
-        this.artDB().then((db) => {
+        artDB().then((db) => {
           const url = 'https://search.artsmia.org/random/art?size=90';
           // eslint-disable-next-line no-undef
           fetch(url, {
@@ -73,44 +50,40 @@ class App extends Component {
               tx.complete.then(() => {
                 // eslint-disable-next-line no-undef
                 window.location.reload();
-                this.setState({ isLoading: false });
+                setIsLoading(false);
               });
             })
             // eslint-disable-next-line react/no-unused-state
-            .catch((error) => this.setState({ error }));
+            .catch((error) => setError(error));
           // };
         });
       } else {
-        this.setState({
-          artItems: obj[0].artItems,
-          isLoading: false,
-        });
+        setArtItems(obj[0].artItems);
+        setIsLoading(false);
       }
     });
   };
 
-  artDB = () => idb.open('art_store', 1, (upgradeDb) => {
+  const artDB = () => idb.open('art_store', 1, (upgradeDb) => {
     // eslint-disable-next-line default-case
     switch (upgradeDb.oldVersion) {
       case 0: upgradeDb.createObjectStore('random_art', { keyPath: 'id' });
     }
   });
 
-  artFavoritesDB = () => idb.open('art_favorite_store', 1, (upgradeDb) => {
+  const artFavoritesDB = () => idb.open('art_favorite_store', 1, (upgradeDb) => {
     // eslint-disable-next-line default-case
     switch (upgradeDb.oldVersion) {
       case 0: upgradeDb.createObjectStore('favorite_art', { keyPath: '_id' });
     }
   });
 
-  render() {
-    const { classes } = this.props;
-    const { artItems, isLoading } = this.state;
-    return (
-      <div className="App">
-        <Router>
-          <div>
-            <MuiThemeProvider theme={theme}>
+  return (
+    <div className="App">
+      <Router>
+        <div>
+          <MuiThemeProvider theme={theme}>
+            <Box display={'flex'} flexDirection={'column'}>
               <UiNavBar />
               <div className={classes.appPages}>
                 <Switch>
@@ -120,9 +93,9 @@ class App extends Component {
                     render={(props) => (
                       <Landing
                         {...props}
-                        handleGetRandomArtwork={this.handleGetRandomArtwork}
+                        handleGetRandomArtwork={handleGetRandomArtwork}
                         artItems={artItems}
-                        artDB={this.artDB}
+                        artDB={artDB}
                         isLoading={isLoading}
                       />
                     )}
@@ -134,7 +107,7 @@ class App extends Component {
                       <Artwork
                         {...props}
                         artItems={artItems}
-                        artFavoritesDB={this.artFavoritesDB}
+                        artFavoritesDB={artFavoritesDB}
                       />
                     )}
                   />
@@ -144,7 +117,7 @@ class App extends Component {
                     render={(props) => (
                       <Favorites
                         {...props}
-                        artFavoritesDB={this.artFavoritesDB}
+                        artFavoritesDB={artFavoritesDB}
                         isLoading={isLoading}
                       />
                     )}
@@ -155,16 +128,10 @@ class App extends Component {
                 </Switch>
               </div>
               <UiFooter />
-            </MuiThemeProvider>
-          </div>
-        </Router>
-      </div>
-    );
-  }
+            </Box>
+          </MuiThemeProvider>
+        </div>
+      </Router>
+    </div>
+  );
 }
-
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(App);

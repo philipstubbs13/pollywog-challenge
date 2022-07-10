@@ -1,21 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import HelpOutlineOutlined from '@material-ui/icons/HelpOutlineOutlined';
 import InfoOutlined from '@material-ui/icons/InfoOutlined';
-import Tooltip from '@material-ui/core/Tooltip';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
 import { useUiNavBarStyles } from './UiNavBar.styles';
-
+import { Box, Tooltip, AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 
 export const UiNavBar = () => {
   const classes = useUiNavBarStyles();
 
   return (
-    <div className={classes.root}>
+    <Box width={'100%'}>
       <AppBar position="static" className="appBar">
         <Toolbar>
           <Link to="/" style={{ textDecoration: 'none', color: 'var(--app-light-color)' }}>
@@ -23,7 +18,7 @@ export const UiNavBar = () => {
               Explore Art
             </Typography>
           </Link>
-          <div className={classes.grow} />
+          <Box flexGrow={1} />
           <div className={classes.sectionDesktop}>
             <Tooltip title="Favorites" placement="bottom">
               <IconButton component={Link} to="/favorites">
@@ -43,6 +38,6 @@ export const UiNavBar = () => {
           </div>
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   );
 }

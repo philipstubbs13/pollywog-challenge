@@ -38,6 +38,7 @@ export const Landing = (props) => {
   }
 
   const totalValidItems = props.artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1');
+  const hasAudioItemsCount = totalValidItems.filter(item => item._source.hasOwnProperty(['related:audio-stops']));
 
   return (
     <div className={classes.landingContainer}>
@@ -48,7 +49,7 @@ export const Landing = (props) => {
         <Button variant="contained" className={classes.exploreMoreBtn} color="primary" size="large" onClick={clearArtDb}>
           Explore more
         </Button>
-        {itemsWithAudio.length > 0 && !hasAudio && (
+        {hasAudioItemsCount.length > 0 && !hasAudio && (
           <Button variant="contained" className={classes.hasAudioBtn} color="primary" size="large" onClick={filterAudio}>
             Has Audio
           </Button>
@@ -63,7 +64,7 @@ export const Landing = (props) => {
         <>
           <Suspense fallback={<UiLoading />}>
             <UiArtItemsList
-              artItems={itemsWithAudio}
+              artItems={hasAudioItemsCount}
               clearArtDb={clearArtDb}
               numberArt={numberArt}
             />
@@ -78,7 +79,7 @@ export const Landing = (props) => {
           />
         </Suspense>
       )}
-      {totalValidItems.length > numberArt && !hasAudio && (
+      {totalValidItems.length > numberArt && hasAudio === false && (
         <div className={classes.loadMoreArt}>
           <Button variant="contained" color="primary" size="large" onClick={toggleLoadMore}>
             Load more
