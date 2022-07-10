@@ -8,8 +8,8 @@ import {
 import idb from 'idb';
 import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import './App.css';
-import Landing from './containers/Landing';
-import Artwork from './containers/Artwork';
+import { Landing }from './containers/landing/Landing';
+import { Artwork } from './containers/artwork/Artwork';
 import { Favorites } from './containers/favorites/Favorites';
 import { About } from './containers/about/About';
 import { Help } from './containers/help/Help';
