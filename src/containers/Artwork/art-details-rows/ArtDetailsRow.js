@@ -6,6 +6,7 @@ import { useArtDetailsRowStyles } from './ArtDetailsRow.styles';
 export const ArtDetailsRow = (props) => {
   const classes = useArtDetailsRowStyles();
   const { term, definition } = props;
+  const definitionDisplay = definition == null ? 'Not Specified' : definition;
 
   return (
     <Box display="flex" marginTop="10px">
@@ -13,7 +14,7 @@ export const ArtDetailsRow = (props) => {
         {term}
       </Typography>
       <Typography variant="body1" className={classes.definition}>
-        {definition}
+        {definitionDisplay}
       </Typography>
     </Box>
   );
@@ -21,5 +22,8 @@ export const ArtDetailsRow = (props) => {
 
 ArtDetailsRow.propTypes = {
   term: PropTypes.string.isRequired,
-  definition: PropTypes.string.isRequired,
+  definition: PropTypes.string,
+};
+ArtDetailsRow.defaultProps = {
+  definition: '',
 };

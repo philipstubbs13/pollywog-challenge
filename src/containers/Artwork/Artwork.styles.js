@@ -21,9 +21,7 @@ export const useArtworkStyles = makeStyles((theme) => createStyles({
     },
   },
   root: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
   },
   artInfo: {
     display: 'flex',

@@ -33,7 +33,7 @@ export const Favorites = (props) => {
           </Suspense>
         </div>
       ) : (
-        <Box display="flex" flexDirection="column" alignItems="center" marginBotton="200px">
+        <Box display="flex" flexDirection="column" alignItems="center">
           <i className="far fa-star fa-4x" />
           <Typography variant="h3">No favorites yet</Typography>
           <Typography variant="h6">

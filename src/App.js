@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
+  Routes,
 } from 'react-router-dom';
 import idb from 'idb';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -14,7 +14,7 @@ import { About } from './containers/about/About';
 import { Help } from './containers/help/Help';
 import { NoMatch } from './containers/no-match/NoMatch';
 import { UiNavBar } from './components/ui-nav-bar/UiNavBar';
-import { UiFooter } from './components/ui-footer/UiFooter';
+// import { UiFooter } from './components/ui-footer/UiFooter';
 import { useAppStyles } from './App.styles';
 import { theme } from './theme/theme';
 
@@ -84,13 +84,12 @@ export const App = () => {
           <MuiThemeProvider theme={theme}>
             <UiNavBar />
             <div className={classes.appPages}>
-              <Switch>
+              <Routes>
                 <Route
                   exact
                   path="/"
-                  render={(props) => (
+                  element={(
                     <Landing
-                      {...props}
                       handleGetRandomArtwork={handleGetRandomArtwork}
                       artItems={artItems}
                       artDB={artDB}
@@ -101,9 +100,8 @@ export const App = () => {
                 <Route
                   exact
                   path="/artwork/:id"
-                  render={(props) => (
+                  element={(
                     <Artwork
-                      {...props}
                       artItems={artItems}
                       artFavoritesDB={artFavoritesDB}
                     />
@@ -112,20 +110,20 @@ export const App = () => {
                 <Route
                   exact
                   path="/favorites"
-                  render={(props) => (
+                  element={(
                     <Favorites
-                      {...props}
                       artFavoritesDB={artFavoritesDB}
                       isLoading={isLoading}
                     />
-                  )}
+                )}
                 />
-                <Route exact path="/about" component={About} />
-                <Route exact path="/help" component={Help} />
-                <Route component={NoMatch} />
-              </Switch>
+                <Route exact path="/about" element={<About />} />
+                <Route exact path="/help" element={<Help />} />
+                <Route element={<NoMatch />} />
+              </Routes>
             </div>
-            <UiFooter />
+            {/* <UiFooter /> */}
+            <div />
           </MuiThemeProvider>
         </div>
       </Router>

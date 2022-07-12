@@ -9,6 +9,7 @@ import List from '@material-ui/core/List';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
+import { useParams, useNavigate } from 'react-router-dom';
 import AppMessage from '../../components/AppMessage';
 import './Artwork.css';
 import { useArtworkStyles } from './Artwork.styles';
@@ -19,11 +20,9 @@ export const Artwork = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [savedItem, setSavedItem] = useState([]);
-  const {
-    artFavoritesDB, match, artItems, history,
-  } = props;
-  const { params } = match;
-  const { id } = params;
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { artFavoritesDB, artItems } = props;
 
   useEffect(() => {
     artFavoritesDB().then((db) => db.transaction('favorite_art')
@@ -57,10 +56,6 @@ export const Artwork = (props) => {
     }
 
     setIsOpen(false);
-  };
-
-  const goBack = () => {
-    history.goBack();
   };
 
   const addDefaultSrc = (event) => {
@@ -107,7 +102,7 @@ export const Artwork = (props) => {
           <div className={classes.artInfo}>
             <Paper className={classes.root} elevation={5}>
               <div className={classes.buttons}>
-                <Button variant="outlined" className={classes.backBtn} color="secondary" onClick={goBack}>
+                <Button variant="outlined" className={classes.backBtn} color="secondary" onClick={() => navigate('/')}>
                   <i className="fas fa-chevron-left" />{' '} back
                 </Button>
                 {savedItem.length === 0 && (
@@ -144,20 +139,20 @@ export const Artwork = (props) => {
                 <Divider />
                 <ArtDetailsRow term="Title" definition={item._source.title} />
                 <ArtDetailsRow term="Dated" definition={item._source.dated} />
-                <ArtDetailsRow term="Artist" definition={item._source.artist === '' ? 'Not specified' : item._source.artist} />
-                <ArtDetailsRow term="Nationality" definition={item._source.nationality === null || item._source.nationality === '' ? 'Not specified' : item._source.nationality} />
-                <ArtDetailsRow term="Artist life" definition={item._source.life_date === null ? 'Not specified' : item._source.life_date} />
+                <ArtDetailsRow term="Artist" definition={item._source.artist} />
+                <ArtDetailsRow term="Nationality" definition={item._source.nationality} />
+                <ArtDetailsRow term="Artist life" definition={item._source.life_date} />
                 <ArtDetailsRow term="Role" definition={item._source.role} />
                 <ArtDetailsRow term="Department" definition={item._source.department} />
-                <ArtDetailsRow term="Dimension" definition={item._source.dimension === '' || item._source.dimension == null ? 'Not specified' : item._source.dimension} />
+                <ArtDetailsRow term="Dimension" definition={item._source.dimension} />
                 <ArtDetailsRow term="Credit" definition={item._source.creditline} />
                 <ArtDetailsRow term="Accession number" definition={item._source.accession_number} />
                 <ArtDetailsRow term="Medium" definition={item._source.medium} />
                 <ArtDetailsRow term="Country" definition={item._source.country} />
-                <ArtDetailsRow term="Century" definition={item._source.style == null ? 'Not specified' : item._source.style} />
+                <ArtDetailsRow term="Century" definition={item._source.style} />
                 <ArtDetailsRow term="Rights" definition={item._source.rights_type} />
                 <ArtDetailsRow term="Classification" definition={item._source.classification} />
-                <ArtDetailsRow term="Object name" definition={item._source.object_name === '' || item._source.object_name == null ? 'Not specified' : item._source.object_name} />
+                <ArtDetailsRow term="Object name" definition={item._source.object_name} />
               </div>
               {item._source.hasOwnProperty(['related:exhibitions']) && item._source['related:exhibitions'].length > 0 && (
                 <div className={classes.exhibitionContainer}>
@@ -185,8 +180,6 @@ export const Artwork = (props) => {
 };
 
 Artwork.propTypes = {
-  match: PropTypes.object.isRequired,
   artFavoritesDB: PropTypes.func.isRequired,
   artItems: PropTypes.array.isRequired,
-  history: PropTypes.object.isRequired,
 };
