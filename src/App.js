@@ -5,9 +5,9 @@ import {
   Switch,
 } from 'react-router-dom';
 import idb from 'idb';
-import  { MuiThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import './App.css';
-import { Landing }from './containers/landing/Landing';
+import { Landing } from './containers/landing/Landing';
 import { Artwork } from './containers/artwork/Artwork';
 import { Favorites } from './containers/favorites/Favorites';
 import { About } from './containers/about/About';
@@ -16,7 +16,6 @@ import { NoMatch } from './containers/no-match/NoMatch';
 import { UiNavBar } from './components/ui-nav-bar/UiNavBar';
 import { UiFooter } from './components/ui-footer/UiFooter';
 import { useAppStyles } from './App.styles';
-import { Box } from '@material-ui/core';
 import { theme } from './theme/theme';
 
 const uuidv1 = require('uuid/v1');
@@ -24,12 +23,22 @@ const uuidv1 = require('uuid/v1');
 export const App = () => {
   const classes = useAppStyles();
   const [artItems, setArtItems] = useState([]);
-  const [error, setError] = useState('');
+  const [, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    handleGetRandomArtwork();
-  }, [])
+  const artDB = () => idb.open('art_store', 1, (upgradeDb) => {
+    // eslint-disable-next-line default-case
+    switch (upgradeDb.oldVersion) {
+      case 0: upgradeDb.createObjectStore('random_art', { keyPath: 'id' });
+    }
+  });
+
+  const artFavoritesDB = () => idb.open('art_favorite_store', 1, (upgradeDb) => {
+    // eslint-disable-next-line default-case
+    switch (upgradeDb.oldVersion) {
+      case 0: upgradeDb.createObjectStore('favorite_art', { keyPath: '_id' });
+    }
+  });
 
   const handleGetRandomArtwork = () => {
     artDB().then((db) => db.transaction('random_art')
@@ -64,72 +73,62 @@ export const App = () => {
     });
   };
 
-  const artDB = () => idb.open('art_store', 1, (upgradeDb) => {
-    // eslint-disable-next-line default-case
-    switch (upgradeDb.oldVersion) {
-      case 0: upgradeDb.createObjectStore('random_art', { keyPath: 'id' });
-    }
-  });
-
-  const artFavoritesDB = () => idb.open('art_favorite_store', 1, (upgradeDb) => {
-    // eslint-disable-next-line default-case
-    switch (upgradeDb.oldVersion) {
-      case 0: upgradeDb.createObjectStore('favorite_art', { keyPath: '_id' });
-    }
-  });
+  useEffect(() => {
+    handleGetRandomArtwork();
+  }, []);
 
   return (
     <div className="App">
       <Router>
         <div>
           <MuiThemeProvider theme={theme}>
-              <UiNavBar />
-              <div className={classes.appPages}>
-                <Switch>
-                  <Route
-                    exact
-                    path="/"
-                    render={(props) => (
-                      <Landing
-                        {...props}
-                        handleGetRandomArtwork={handleGetRandomArtwork}
-                        artItems={artItems}
-                        artDB={artDB}
-                        isLoading={isLoading}
-                      />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/artwork/:id"
-                    render={(props) => (
-                      <Artwork
-                        {...props}
-                        artItems={artItems}
-                        artFavoritesDB={artFavoritesDB}
-                      />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/favorites"
-                    render={(props) => (
-                      <Favorites
-                        {...props}
-                        artFavoritesDB={artFavoritesDB}
-                        isLoading={isLoading}
-                      />
-                    )}
-                  />
-                  <Route exact path="/about" component={About} />
-                  <Route exact path="/help" component={Help} />
-                  <Route component={NoMatch} />
-                </Switch>
-              </div>
-              <UiFooter />
+            <UiNavBar />
+            <div className={classes.appPages}>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={(props) => (
+                    <Landing
+                      {...props}
+                      handleGetRandomArtwork={handleGetRandomArtwork}
+                      artItems={artItems}
+                      artDB={artDB}
+                      isLoading={isLoading}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/artwork/:id"
+                  render={(props) => (
+                    <Artwork
+                      {...props}
+                      artItems={artItems}
+                      artFavoritesDB={artFavoritesDB}
+                    />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/favorites"
+                  render={(props) => (
+                    <Favorites
+                      {...props}
+                      artFavoritesDB={artFavoritesDB}
+                      isLoading={isLoading}
+                    />
+                  )}
+                />
+                <Route exact path="/about" component={About} />
+                <Route exact path="/help" component={Help} />
+                <Route component={NoMatch} />
+              </Switch>
+            </div>
+            <UiFooter />
           </MuiThemeProvider>
         </div>
       </Router>
     </div>
   );
-}
+};

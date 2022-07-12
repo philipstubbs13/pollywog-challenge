@@ -1,43 +1,44 @@
 import React, { useState, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { UiLoading } from '../../components/ui-loading/UiLoading';
-import { UiArtItemsList } from '../../components/ui-art-items-list/UiArtItemsList'
-import { useLandingStyles } from './Landing.styles';
 import { Box, Typography, Button } from '@material-ui/core';
+import { UiLoading } from '../../components/ui-loading/UiLoading';
+import { UiArtItemsList } from '../../components/ui-art-items-list/UiArtItemsList';
+import { useLandingStyles } from './Landing.styles';
 
 export const Landing = (props) => {
   const classes = useLandingStyles();
   const [numberArt, setNumberArt] = useState(10);
-  const [itemsWithAudio, setItemsWithAudio] = useState([]);
+  const [, setItemsWithAudio] = useState([]);
   const [hasAudio, setHasAudio] = useState(false);
+  const { artDB, handleGetRandomArtwork, artItems } = props;
 
   const clearArtDb = () => {
-    props.artDB().then((db) => {
+    artDB().then((db) => {
       const txxx = db.transaction('random_art', 'readwrite');
       txxx.objectStore('random_art').clear();
       txxx.complete.then(() => {
-        props.handleGetRandomArtwork();
+        handleGetRandomArtwork();
       });
     });
-  }
+  };
 
   const toggleLoadMore = () => {
-    setNumberArt((numberArt) => numberArt + 4)
-  }
+    setNumberArt((previousNumberArt) => previousNumberArt + 4);
+  };
 
   const filterAudio = () => {
-    const totalValidItems = props.artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1');
-    const itemsWithAudio = totalValidItems.filter(item => item._source.hasOwnProperty(['related:audio-stops']));
+    const totalValidItems = artItems.filter((item) => item._source.image === 'valid' && item._source.public_access === '1');
+    const itemsWithAudio = totalValidItems.filter((item) => item._source.hasOwnProperty(['related:audio-stops']));
     setItemsWithAudio(itemsWithAudio);
     setHasAudio(true);
-  }
+  };
 
   const clearAudioFilter = () => {
     setHasAudio(false);
-  }
+  };
 
-  const totalValidItems = props.artItems.filter(item => item._source.image === 'valid' && item._source.public_access === '1');
-  const hasAudioItemsCount = totalValidItems.filter(item => item._source.hasOwnProperty(['related:audio-stops']));
+  const totalValidItems = artItems.filter((item) => item._source.image === 'valid' && item._source.public_access === '1');
+  const hasAudioItemsCount = totalValidItems.filter((item) => item._source.hasOwnProperty(['related:audio-stops']));
 
   return (
     <Box>
@@ -71,7 +72,7 @@ export const Landing = (props) => {
       {!hasAudio && (
         <Suspense fallback={<UiLoading />}>
           <UiArtItemsList
-            artItems={props.artItems}
+            artItems={artItems}
             clearArtDb={clearArtDb}
             numberArt={numberArt}
           />
@@ -86,7 +87,7 @@ export const Landing = (props) => {
       )}
     </Box>
   );
-}
+};
 
 Landing.propTypes = {
   handleGetRandomArtwork: PropTypes.func.isRequired,

@@ -2,9 +2,11 @@
     "extends": "airbnb",
     "parser": "@babel/eslint-parser",
     "parserOptions": {
-      "requireConfigFile": false
+      "requireConfigFile": false,
+      "presets": ["@babel/preset-react"]
     },
     "rules": {
+      "arrow-body-style": 0,
       "react/jsx-filename-extension": 0,
       "react/prefer-stateless-function": 0,
       "linebreak-style": 0,

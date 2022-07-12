@@ -8,7 +8,7 @@ export const About = () => {
   const classes = useAboutStyles();
 
   return (
-    <Grid container direction="column" justifyContent="center" alignItems={'center'} spacing={4} className={classes.aboutContainer}>
+    <Grid container direction="column" justifyContent="center" alignItems="center" spacing={4} className={classes.aboutContainer}>
       <Grid item xs={12} className={classes.aboutItem}>
         <Paper className={classes.root} elevation={5}>
           <Typography variant="h4" className={classes.aboutTitle}>
@@ -29,4 +29,4 @@ export const About = () => {
       </Grid>
     </Grid>
   );
-}
+};

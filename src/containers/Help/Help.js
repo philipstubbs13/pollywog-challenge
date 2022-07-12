@@ -1,20 +1,22 @@
 import React from 'react';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {
+  Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Box,
+} from '@material-ui/core';
 import topics from './topics.json';
 import { useHelpStyles } from './Help.styles';
-import { Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Box } from '@material-ui/core';
 
 export const Help = () => {
-  const classes = useHelpStyles()
+  const classes = useHelpStyles();
 
   return (
-    <Grid container direction="column" alignItems={'center'} justifyContent="center" spacing={4} className={classes.helpContainer}>
+    <Grid container direction="column" alignItems="center" justifyContent="center" spacing={4} className={classes.helpContainer}>
       <Grid item xs={12} className={classes.helpItem}>
         <Typography variant="h4" className={classes.helpTitle}>
           Help
         </Typography>
-        <Box width={'100%'}>
-          {topics.map(topic => (
+        <Box width="100%">
+          {topics.map((topic) => (
             <Accordion className={classes.topic} key={topic.id}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
@@ -32,4 +34,4 @@ export const Help = () => {
       </Grid>
     </Grid>
   );
-}
+};

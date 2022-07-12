@@ -1,23 +1,24 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { UiLoading } from '../../components/ui-loading/UiLoading';
-import { UiArtItemsList } from '../../components/ui-art-items-list/UiArtItemsList'
 import { Box, Typography } from '@material-ui/core';
+import { UiLoading } from '../../components/ui-loading/UiLoading';
+import { UiArtItemsList } from '../../components/ui-art-items-list/UiArtItemsList';
 
 export const Favorites = (props) => {
-  const [favoriteItems, setFavoriteItems] = useState([])
+  const [favoriteItems, setFavoriteItems] = useState([]);
+  const { artFavoritesDB, isLoading } = props;
 
   useEffect(() => {
-    props.artFavoritesDB().then(db => db.transaction('favorite_art')
+    artFavoritesDB().then((db) => db.transaction('favorite_art')
       .objectStore('favorite_art').getAll()).then((obj) => {
       if (obj.length) {
-        setFavoriteItems(obj)
+        setFavoriteItems(obj);
       }
     });
-  }, []) 
+  }, []);
 
   return (
-    <>
+    <div>
       {favoriteItems.length ? (
         <div>
           <Typography variant="h2">
@@ -27,12 +28,12 @@ export const Favorites = (props) => {
             <UiArtItemsList
               artItems={favoriteItems}
               numberArt={10000}
-              isLoading={props.isLoading}
+              isLoading={isLoading}
             />
           </Suspense>
         </div>
       ) : (
-        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} marginBotton={'200px'}>
+        <Box display="flex" flexDirection="column" alignItems="center" marginBotton="200px">
           <i className="far fa-star fa-4x" />
           <Typography variant="h3">No favorites yet</Typography>
           <Typography variant="h6">
@@ -43,9 +44,9 @@ export const Favorites = (props) => {
           </Typography>
         </Box>
       )}
-    </>
+    </div>
   );
-}
+};
 
 Favorites.propTypes = {
   artFavoritesDB: PropTypes.func.isRequired,

@@ -4,7 +4,7 @@ import { Typography, Box, Button } from '@material-ui/core';
 
 export const NoMatch = () => {
   return (
-    <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
+    <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
       <Typography variant="h4">
         Page not found
       </Typography>
@@ -16,7 +16,7 @@ export const NoMatch = () => {
           Back to home
         </Button>
       </Box>
-      <img width={'300px'} height={'300px'} src="https://1.api.artsmia.org/15790.jpg" alt="Art not available" />
+      <img width="300px" height="300px" src="https://1.api.artsmia.org/15790.jpg" alt="Art not available" />
     </Box>
   );
-}
+};

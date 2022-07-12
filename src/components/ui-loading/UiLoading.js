@@ -7,4 +7,4 @@ export const UiLoading = () => {
       <Typography variant="h4">Loading...</Typography>
     </div>
   );
-}
+};

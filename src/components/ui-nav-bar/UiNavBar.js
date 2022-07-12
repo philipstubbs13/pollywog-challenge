@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import HelpOutlineOutlined from '@material-ui/icons/HelpOutlineOutlined';
 import InfoOutlined from '@material-ui/icons/InfoOutlined';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
+import {
+  Box, Tooltip, AppBar, Toolbar, IconButton, Typography,
+} from '@material-ui/core';
 import { useUiNavBarStyles } from './UiNavBar.styles';
-import { Box, Tooltip, AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 
 export const UiNavBar = () => {
   const classes = useUiNavBarStyles();
 
   return (
-    <Box width={'100%'}>
+    <Box width="100%">
       <AppBar position="static" className="appBar">
         <Toolbar>
           <Link to="/" style={{ textDecoration: 'none', color: 'var(--app-light-color)' }}>
@@ -40,4 +42,4 @@ export const UiNavBar = () => {
       </AppBar>
     </Box>
   );
-}
+};
