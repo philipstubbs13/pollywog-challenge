@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Sound from 'react-sound';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import {
+  Typography, Button, Paper, Divider, List, IconButton, Tooltip, Box,
+} from '@material-ui/core';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
 import { useParams, useNavigate } from 'react-router-dom';
 import AppMessage from '../../components/AppMessage';
@@ -66,7 +62,7 @@ export const Artwork = (props) => {
     <>
       {artItems.filter((item) => item._source.id === id).map((item) => (
         <div className={classes.artworkContainer} key={item._source.id}>
-          <div className={classes.art}>
+          <Box display="flex" flexDirection="column">
             <img
               src={`https://1.api.artsmia.org/${id}.jpg`}
               alt={item._source.title}
@@ -77,9 +73,11 @@ export const Artwork = (props) => {
               <>
                 {isPlaying ? (
                   <>
-                    <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={togglePlayAudio}>
-                      <i className="fas fa-pause" /> Stop audio tour
-                    </Button>
+                    <Box marginTop={3}>
+                      <Button variant="contained" size="large" color="primary" onClick={togglePlayAudio}>
+                        <i className="fas fa-pause" /> Stop audio tour
+                      </Button>
+                    </Box>
                     <Sound
                       url={item._source['related:audio-stops'][0].link}
                       playStatus={Sound.status.PLAYING}
@@ -87,22 +85,24 @@ export const Artwork = (props) => {
                     />
                   </>
                 ) : (
-                  <Button variant="contained" size="large" className={classes.playAudioBtn} color="primary" onClick={togglePlayAudio}>
-                    <i className="fas fa-play" /> Play audio tour
-                  </Button>
+                  <Box marginTop={3}>
+                    <Button variant="contained" size="large" color="primary" onClick={togglePlayAudio}>
+                      <i className="fas fa-play" /> Play audio tour
+                    </Button>
+                  </Box>
                 )}
-                <small
-                  className={classes.audioSubtext}
-                >
-                  *Don&#39;t hear anything? Check the volume level on your device.
-                </small>
+                <Box marginTop={1}>
+                  <Typography variant="caption">
+                    *Don&#39;t hear anything? Check the volume level on your device.
+                  </Typography>
+                </Box>
               </>
             )}
-          </div>
+          </Box>
           <div className={classes.artInfo}>
-            <Paper className={classes.root} elevation={5}>
-              <div className={classes.buttons}>
-                <Button variant="outlined" className={classes.backBtn} color="secondary" onClick={() => navigate('/')}>
+            <Paper className={classes.root}>
+              <Box display="flex">
+                <Button variant="text" className={classes.backBtn} color="secondary" onClick={() => navigate('/')}>
                   <i className="fas fa-chevron-left" />{' '} back
                 </Button>
                 {savedItem.length === 0 && (
@@ -118,21 +118,21 @@ export const Artwork = (props) => {
                     <AppMessage open={isOpen} onClose={onClose} message={`The following art was successfully saved to favorites: ${item._source.title}`} variant="success" link="#" />
                   </>
                 )}
-              </div>
-              <div className={classes.artTitle}>
+              </Box>
+              <Box>
                 <Typography variant="h5" component="h3">
                   {item._source.title}
                 </Typography>
                 <Typography variant="body1" component="h4">
                   {item._source.artist === '' ? null : item._source.artist}
                 </Typography>
-              </div>
-              <div className={classes.artDescription}>
+              </Box>
+              <Box marginTop={4}>
                 <Typography variant="body1">
                   {item._source.description}
                 </Typography>
-              </div>
-              <div className={classes.artDetailsContainer}>
+              </Box>
+              <Box marginTop={4}>
                 <Typography variant="h5">
                   Details
                 </Typography>
@@ -153,23 +153,23 @@ export const Artwork = (props) => {
                 <ArtDetailsRow term="Rights" definition={item._source.rights_type} />
                 <ArtDetailsRow term="Classification" definition={item._source.classification} />
                 <ArtDetailsRow term="Object name" definition={item._source.object_name} />
-              </div>
+              </Box>
               {item._source.hasOwnProperty(['related:exhibitions']) && item._source['related:exhibitions'].length > 0 && (
-                <div className={classes.exhibitionContainer}>
+                <Box marginTop={4}>
                   <Typography variant="h5">
                     Exhibitions
                   </Typography>
                   <Divider />
                   <List>
                     {item._source['related:exhibitions'].map((exhibit) => (
-                      <div className={classes.exhibitListItem} key={exhibit.id}>
+                      <Box marginTop={3} key={exhibit.id}>
                         <Typography variant="h6">{exhibit.title}</Typography>
                         <Typography variant="subtitle1">{exhibit.date}</Typography>
                         <Typography variant="body1">{exhibit.description}</Typography>
-                      </div>
+                      </Box>
                     ))}
                   </List>
-                </div>
+                </Box>
               )}
             </Paper>
           </div>

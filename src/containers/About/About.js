@@ -10,7 +10,7 @@ export const About = () => {
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={4} className={classes.aboutContainer}>
       <Grid item xs={12} className={classes.aboutItem}>
-        <Paper className={classes.root} elevation={5}>
+        <Paper className={classes.root}>
           <Typography variant="h4" className={classes.aboutTitle}>
             About Explore Art
           </Typography>

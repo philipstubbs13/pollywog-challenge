@@ -21,7 +21,7 @@ export const useArtworkStyles = makeStyles((theme) => createStyles({
     },
   },
   root: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(4),
   },
   artInfo: {
     display: 'flex',
@@ -37,37 +37,11 @@ export const useArtworkStyles = makeStyles((theme) => createStyles({
     },
     border: '1px solid var(--app-light-color)',
   },
-  artDetailsContainer: {
-    marginTop: 30,
-  },
-  artDescription: {
-    marginTop: 30,
-  },
-  exhibitionContainer: {
-    marginTop: 30,
-  },
-  buttons: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
   backBtn: {
     marginBottom: 20,
   },
   favoriteBtn: {
     marginBottom: 20,
     marginLeft: 'auto',
-  },
-  art: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  playAudioBtn: {
-    marginTop: 20,
-  },
-  exhibitListItem: {
-    marginTop: 20,
-  },
-  audioSubtext: {
-    marginTop: 5,
   },
 }));
